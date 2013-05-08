@@ -6,6 +6,12 @@
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
+## Reporting a Bug
+
+If you don't mind running the problem command (if applicable) in debug
+mode and dumping the output in your GitHub issue, it'd be very helpful.
+
+    get [<command>] --debug
 
 ## Development Environment
 
