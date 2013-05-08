@@ -16,7 +16,7 @@ Arguments:
 
     path                            The path to place or update the
                                     repostories. Defaults to the path
-                                    in ~/.get.
+                                    in ~/.getconfig.
 
 To learn more or to contribute, please see github.com/pearkes/get`)
 	os.Exit(1)
