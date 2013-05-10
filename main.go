@@ -66,10 +66,7 @@ func askForCredentials() {
 	}
 
 	var b Block
-
 	dec.Decode(&b)
-
-	log.Println(b)
 
 	log.Println(resp.Status)
 
