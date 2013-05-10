@@ -13,9 +13,13 @@ import (
 	"strings"
 )
 
+type AuthorizeResponse struct {
+	Token string `json:token`
+}
+
 // Asks the user for credentials, and then makes a request to the
 // GitHub API to get an authorization token to store in ~/.getconfig
-func askForCredentials() {
+func askForCredentials(env Env) string {
 	log.Println("Asking user for credentials...")
 
 	var username string
@@ -61,31 +65,25 @@ func askForCredentials() {
 
 	dec := json.NewDecoder(bytes.NewReader(body))
 
-	type Block struct {
-		Token string
-	}
+	log.Println(dec)
 
-	var b Block
-	dec.Decode(&b)
+	auth := AuthorizeResponse{}
+
+	dec.Decode(&auth)
 
 	log.Println(resp.Status)
 
 	if resp.StatusCode != 201 {
 		fmt.Println("\x1b[1;31;40mUh oh, there was an error authenticating with GitHub. Here's what we got back:\x1b[0m\n")
 		fmt.Println(string(body))
+		os.Exit(1)
 	} else {
 		fmt.Println("\x1b[32mSuccesfully authenticated with Github.\x1b[0m")
 	}
 
 	log.Println(string(body))
 
-}
-
-// Retrieves a list of all available repostories and builds them up into
-// something we can handle locally. After this occurs, we begin our
-// clone / fetch sequence.
-func listRepostories(env Env) {
-	log.Println("Listing repostories...")
+	return auth.Token
 }
 
 // Parses options sent to `get` and kicks off the main event.
@@ -114,11 +112,11 @@ func main() {
 	// Log enabled debugging
 	log.Println("Debugging enabled for", versionString())
 
-	conf := injectConfiguration()
-	env := Env{ProvidedPath: flag.Arg(0), Debug: *debug, Config: conf}
+	env := Env{ProvidedPath: flag.Arg(0), Debug: *debug}
 
 	// Run checks
 	env = sequence_checks(env)
+
 	// Update reposotories
 	sequence_update(env)
 }

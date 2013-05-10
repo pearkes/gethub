@@ -1,8 +1,11 @@
 package main
 
 import (
+	"fmt"
+	"github.com/pearkes/goconfig/config"
 	"log"
 	"os"
+	"strings"
 )
 
 // We pass around the environment and attach various useful things to
@@ -18,6 +21,7 @@ type Env struct {
 type Configuration struct {
 	Token         string
 	Path          string
+	Username      string
 	IgnoredOwners []string
 	IgnoredRepos  []string
 }
@@ -30,13 +34,6 @@ type Locals struct {
 	Repos  []string
 }
 
-// type Remotes represents the list of remote owners and repos for
-// each of those retrieved from the GitHub API.
-type Remotes struct {
-	Owners []string
-	Repos  []string
-}
-
 // Creates configuration at ~/.getconfig.
 func createConfiguration() {
 	log.Println("Creating configuration...")
@@ -45,14 +42,56 @@ func createConfiguration() {
 // Injects the configuration into the environment.
 func injectConfiguration() Configuration {
 	log.Println("Injecting configuration...")
-	conf := Configuration{}
+
+	// Read the file from their home directory
+	c, err := config.ReadDefault("/Users/" + os.Getenv("USER") + "/.getconfig")
+
+	if err != nil {
+		fmt.Println("Error reading from ~/.getconfig.")
+	}
+
+	path, _ := c.String("get", "path")
+	token, _ := c.String("github", "token")
+	username, _ := c.String("github", "username")
+	repoIgnores, _ := c.String("ignores", "repo")
+	ownerIgnores, _ := c.String("ignores", "owner")
+
+	log.Println("Configured path:", path)
+	log.Println("Configured username:", username)
+	log.Println("Configured ignored repos:", repoIgnores)
+	log.Println("Configured ignored owners:", ownerIgnores)
+
+	conf := Configuration{
+		Path:          path,
+		Username:      username,
+		Token:         token,
+		IgnoredRepos:  strings.Split(repoIgnores, ","),
+		IgnoredOwners: strings.Split(ownerIgnores, ","),
+	}
+
 	return conf
 }
 
 // Checks the configuration on the filesystem for syntax errors or
 // non-exsistance.
-func checkConfiguration(conf Configuration) {
+func checkConfiguration(env Env) {
 	log.Println("Checking configuration...")
+
+	// Check to see if the file exists at all. If not, drop into
+	// the authorization sequence.
+	_, err := os.Stat("/Users/" + os.Getenv("USER") + "/.getconfig")
+
+	if err != nil {
+		sequence_authorize(env)
+	}
+
+	// Read the file from their home directory
+	_, err2 := config.ReadDefault("/Users/" + os.Getenv("USER") + "/.getconfig")
+
+	if err2 != nil {
+		fmt.Println("Your ~/.getconfig file may be corrupt. Try deleting it?")
+	}
+
 }
 
 // Checks a path to see if it is get compatible. If not, it raises an
@@ -70,6 +109,7 @@ func checkPath(env Env) {
 	}
 
 	_, err := os.Stat(path)
+
 	if err != nil {
 		// They haven't set-up a path, let's take them through it.
 		sequence_authorize(env)

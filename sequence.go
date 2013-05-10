@@ -16,7 +16,10 @@ authorization token from GitHub's API, which will be stored in
 ~/.getconfig.
 `)
 
-	askForCredentials()
+	token := askForCredentials(env)
+
+	log.Println(token)
+
 	return env
 }
 
@@ -24,14 +27,22 @@ authorization token from GitHub's API, which will be stored in
 // each of them.
 func sequence_update(env Env) {
 	log.Println("Begin repository update sequence...")
-	listRepostories(env)
+	listRemoteRepostories(env)
 }
 
 // The check sequence, which goes through the basic health checks for
 // `get` to succesfully function.
 func sequence_checks(env Env) Env {
 	log.Println("Begin check sequence...")
-	checkConfiguration(env.Config)
+
+	// Check Configuration
+	checkConfiguration(env)
+
+	// Inject configuration
+	env.Config = injectConfiguration()
+
+	// Check supplied path
 	checkPath(env)
+
 	return env
 }
