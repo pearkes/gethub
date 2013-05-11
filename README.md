@@ -1,18 +1,30 @@
 # get
 
-## Warning
-
-This is a work in progress and is not yet ready for real use.
-
-![Demo Gif]()
+![](https://f.cloud.github.com/assets/846194/491605/3c2635ee-ba44-11e2-9d04-01b3922aec8a.gif)
 
 ## Overview
 
 `get` helps you keep all of your git repositories that have GitHub
 remotes up to date.
 
-It's opinionated about how you organize your repositories. When
-you run `get` the first time, it will build you something like this:
+## Getting Started
+
+The first time you run `get`, you pass it a path.
+
+    $ get /Users/jack/code
+
+After authorizing with GitHub, all of your repositories will
+be cloned into this path.
+
+The next time you run a `get`, all of your new repositories will be cloned
+and your existing repositories will be fetched.
+
+It's useful if you have a lot of repos and may not have an
+internet connection. Never leave home without a `get`.™
+
+## Directory Structure
+
+It's opinionated about how you organize your repositories.
 
     ├── pearkes
     │   ├── get
@@ -30,19 +42,18 @@ you run `get` the first time, it will build you something like this:
 Basically, your repositories will be name-spaced according
 to who the owner is on GitHub.
 
-It's really useful if you have a lot of repos and an inconsistent network
-connection. Before hopping on a plane, train or automobile, run: `get`.
+## Behind the Curtain
 
-## The Command
+    $ get
 
-    get
+1. Checks to see if the necessary requirements for `get` exist,
+like it's `~/.getconfig` file.
+2. If it needs to, asks for your credentials to talk to GitHub, and
+subsequently creates a `~/.getconfig` file for future use.
+3. Clones any repositories that are missing.
+4. Runs `git fetch` in repositories that exist.
 
-1. Checks to see if the necessary requirements for `get` exist
-2. If it needs to, asks for your credentials to talk to GitHub
-3. Clones any missing repositories
-4. Runs `git fetch` in repostories that exist
-
-This is done in parallel as much as possible to speed things up.
+*Performance note:* Clones and fetches are executed in parallel
 
 ## Configuration
 
@@ -54,17 +65,10 @@ Configuration is stored in a `.getconfig` file in your home directory.
 Sometimes you don't want to retrieve that gigantic project that
 someone committed `.mov` files to.
 
-    repo-ignore: icloud, facebook
-    owner-ignore: adobe
-
-### Binary Paths
-
-`get` uses `curl` and `git`. It'll use whatever is in your `PATH`, but
-that can be overidden.
-
-    curl-path: /usr/local/bin/curl
-    git-path:  /usr/local/bin/git
+    [ignores]
+    repo: icloud, facebook
+    owner: adobe
 
 ## Contributing
 
-Check out the [contributing guide]().
+Check out the [contributing guide](CONTRIBUTING.md).
