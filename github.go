@@ -29,7 +29,7 @@ func (r Repo) Name() string {
 // something we can handle locally. After this occurs, we begin our
 // clone / fetch sequence.
 func listRemoteRepostories(env Env) []Repo {
-	log.Println("Retrieving remote repostories...")
+	log.Println("Retrieving remote repositories...")
 	client := &http.Client{}
 
 	req, err := http.NewRequest("GET",
@@ -62,7 +62,7 @@ func listRemoteRepostories(env Env) []Repo {
 	log.Println(resp.Status)
 
 	if resp.StatusCode != 200 {
-		fmt.Println("\x1b[1;31;40mUh oh, there was an error getting your repositories from GitHub. Here's what we got back:\x1b[0m\n")
+		fmt.Println(red + "Uh oh, there was an error getting your repositories from GitHub. Here's what we got back:\n" + clear)
 		fmt.Println(string(body))
 		os.Exit(1)
 	}
