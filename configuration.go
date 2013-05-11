@@ -126,6 +126,9 @@ func checkPath(env Env) {
 
 		if env.ProvidedPath != "" {
 			path = env.ProvidedPath
+		} else {
+			fmt.Println(red + "You need to provide a path to clone your repositories to the first time your run get." + clear)
+			usage()
 		}
 
 		_, err := os.Stat(path)
