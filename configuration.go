@@ -13,7 +13,6 @@ import (
 type Env struct {
 	Config       Configuration
 	ProvidedPath string
-	Path         string
 	Debug        bool
 }
 
