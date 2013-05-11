@@ -38,7 +38,7 @@ func sequence_update(env Env) {
 
 	fmt.Printf("%sdone%s\n", green, clear)
 
-	fmt.Printf("Updating local repositories: ")
+	fmt.Printf("Updating repositories: ")
 
 	fetches := []string{}
 	clones := []string{}
