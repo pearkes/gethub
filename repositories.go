@@ -12,6 +12,14 @@ func cloneRepo(repo Repo, env Env) error {
 	repoPath := env.Config.Path + "/" + repo.FullName
 	log.Println("Cloning new repository:", repoPath)
 
+	// Make the repository directory
+	mkdirerr := os.MkdirAll(repoPath, 0777)
+
+	// If an error occurs, return it
+	if mkdirerr != nil {
+		return mkdirerr
+	}
+
 	// Clone into the current directory
 	cmd := exec.Command("git", "clone", repo.SSHUrl, ".")
 
@@ -23,10 +31,10 @@ func cloneRepo(repo Repo, env Env) error {
 	cmd.Stdout = &out
 
 	// Execute the clone
-	err := cmd.Run()
+	cloneerr := cmd.Run()
 
 	// If an error occurs, return a new error with the stdout
-	if err != nil {
+	if cloneerr != nil {
 		return errors.New("Error cloning: " + out.String())
 	}
 
@@ -93,9 +101,9 @@ func checkRepo(repo Repo, env Env) string {
 	gitPath := repoPath + "/.git"
 
 	// Check to see if the directory is a git repository
-	stat, _ := os.Stat(gitPath)
+	stat, staterr := os.Stat(gitPath)
 
-	if stat.IsDir() != true {
+	if staterr != nil || stat.IsDir() != true {
 		// If the directory does not exist, we want to run a clone to
 		// get it.
 		cloneerr := cloneRepo(repo, env)
