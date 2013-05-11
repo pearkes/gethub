@@ -11,7 +11,7 @@ remotes up to date.
 
 The first time you run `get`, you pass it a path.
 
-    $ get /Users/jack/code
+    $ get .
 
 After authorizing with GitHub, all of your repositories will
 be cloned into this path.
@@ -53,7 +53,7 @@ subsequently creates a `~/.getconfig` file for future use.
 3. Clones any repositories that are missing.
 4. Runs `git fetch` in repositories that exist.
 
-*Performance note:* Clones and fetches are executed in parallel
+*Performance note:* Clones and fetches are executed in parallell
 
 ## Configuration
 
