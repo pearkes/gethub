@@ -13,6 +13,8 @@ import (
 // type Repo represents a single repository
 type Repo struct {
 	FullName string `json:"full_name"`
+	SSHUrl   string `json:"ssh_url"`
+	HTTPSUrl string `json:"clone_url"`
 }
 
 func (r Repo) Owner() string {
@@ -26,7 +28,7 @@ func (r Repo) Name() string {
 // Retrieves a list of all available repostories and builds them up into
 // something we can handle locally. After this occurs, we begin our
 // clone / fetch sequence.
-func listRemoteRepostories(env Env) {
+func listRemoteRepostories(env Env) []Repo {
 	log.Println("Retrieving remote repostories...")
 	client := &http.Client{}
 
@@ -65,6 +67,7 @@ func listRemoteRepostories(env Env) {
 		os.Exit(1)
 	}
 
-	log.Println(len(repos))
+	log.Println(len(repos), "repositories retrieved from GitHub")
 
+	return repos
 }

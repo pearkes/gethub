@@ -30,7 +30,10 @@ authorization token from GitHub's API, which will be stored in
 // each of them.
 func sequence_update(env Env) {
 	log.Println("Begin repository update sequence...")
-	listRemoteRepostories(env)
+
+	repos := listRemoteRepostories(env)
+
+	checkRepo(repos[1], env)
 }
 
 // The check sequence, which goes through the basic health checks for
