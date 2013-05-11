@@ -39,10 +39,10 @@ func sequence_update(env Env) {
 	errors := []string{}
 	ignores := []string{}
 
+	// Asynchronously update each repository
 	var wg sync.WaitGroup
 	for _, repo := range repos {
 		wg.Add(1)
-
 		go func(repo Repo) {
 			switch checkRepo(repo, env) {
 			case "fetch":
@@ -58,6 +58,7 @@ func sequence_update(env Env) {
 		}(repo)
 	}
 
+	// Wait for every update to be finished
 	wg.Wait()
 
 	fmt.Println("Updated repositories:", len(fetches))
