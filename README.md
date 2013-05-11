@@ -11,7 +11,7 @@ remotes up to date.
 
 Please see the [issue](https://github.com/pearkes/get/issues/2).
 
-*This is temporary until binaries are properly compiled.*
+*This is temporary until binaries are properly compiled for common platforms.*
 
 ## Getting Started
 
