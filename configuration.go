@@ -86,6 +86,12 @@ func checkConfiguration(env Env) {
 	_, err := os.Stat(os.Getenv("HOME") + "/.getconfig")
 
 	if err != nil {
+		// If the provided path is empty
+		if env.ProvidedPath == "" {
+			fmt.Println(red + "You need to provide a path to clone your repositories to the first time your run get." + clear)
+			usage()
+		}
+
 		sequence_authorize(env)
 	}
 
