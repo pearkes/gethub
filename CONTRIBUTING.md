@@ -11,7 +11,7 @@
 If you don't mind running the problem command (if applicable) in debug
 mode and dumping the output in your GitHub issue, it'd be very helpful.
 
-    get [<command>] --debug
+    get --debug [<command>]
 
 ## Development Environment
 
