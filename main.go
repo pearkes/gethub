@@ -13,6 +13,14 @@ import (
 	"strings"
 )
 
+// How do you make constants properly? Will accept pull requests.
+var (
+	red    = "\x1b[31m"
+	green  = "\x1b[32m"
+	yellow = "\x1b[33m"
+	clear  = "\x1b[0m"
+)
+
 type AuthorizeResponse struct {
 	Token string `json:token`
 }
@@ -74,11 +82,11 @@ func askForCredentials(env Env) Env {
 	log.Println(resp.Status)
 
 	if resp.StatusCode != 201 {
-		fmt.Println("\x1b[1;31;40mUh oh, there was an error authenticating with GitHub. Here's what we got back:\x1b[0m\n")
+		fmt.Println(red + "Uh oh, there was an error authenticating with GitHub. Here's what we got back:\n" + clear)
 		fmt.Println(string(body))
 		os.Exit(1)
 	} else {
-		fmt.Println("\x1b[32mSuccesfully authenticated with Github.\x1b[0m")
+		fmt.Println(green + "Succesfully authenticated with Github." + clear)
 	}
 
 	log.Println(string(body))

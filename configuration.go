@@ -115,7 +115,7 @@ func checkPath(env Env) {
 
 		if stat.IsDir() != true {
 			// If the configured path isn't a directory, tell the user.
-			fmt.Println("\x1b[1;31;40mYour configured path (~/.getconfig) doesn't appear to be a directory.\x1b[0m\n")
+			fmt.Println(red + "Your configured path (~/.getconfig) doesn't appear to be a directory." + clear)
 			os.Exit(1)
 		}
 
@@ -133,8 +133,8 @@ func checkPath(env Env) {
 		if err != nil {
 			// They haven't set-up a path, or passed one in, so we're going
 			// to assume they want to do it here.
-			fmt.Println("\x1b[1;31;40mYou need to provide a path to clone your repositories to the first time your run get.\x1b[0m\n")
-			usage()
+			fmt.Println(red + "Your provided path doesn't seem to exist: " + env.ProvidedPath + clear)
+			os.Exit(1)
 		}
 	}
 

@@ -11,8 +11,7 @@ func sequence_authorize(env Env) Env {
 	log.Println("Begin authorization sequence...")
 
 	// Let the user know what will happen.
-	fmt.Println(`
-Your username and password will be used once to obtain a unique
+	fmt.Println(`Your username and password will be used once to obtain a unique
 authorization token from GitHub's API, which will be stored in
 ~/.getconfig.
 `)

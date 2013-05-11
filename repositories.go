@@ -45,7 +45,7 @@ func cloneRepo(repo Repo, env Env) error {
 func fetchRepo(repo Repo, env Env) error {
 	repoPath := env.Config.Path + "/" + repo.FullName
 
-	log.Println("Fetching new repository:", repoPath)
+	log.Println("Fetching existing repository:", repoPath)
 
 	// Fetch the current directory
 	cmd := exec.Command("git", "fetch")
