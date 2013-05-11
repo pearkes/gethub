@@ -44,8 +44,6 @@ func sequence_update(env Env) {
 		wg.Add(1)
 
 		go func(repo Repo) {
-			fmt.Println(repo.Name())
-
 			switch checkRepo(repo, env) {
 			case "fetch":
 				fetches = append(fetches, repo.Name())
