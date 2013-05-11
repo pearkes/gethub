@@ -28,7 +28,6 @@ And run it:
 
 To install the development binary on your system:
 
-    $ chmod +x ./get
-    $ [sudo] cp get /usr/bin/
+    $ go install
 
 If you need help with your environment, feel free to open an issue.

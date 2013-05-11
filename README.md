@@ -7,6 +7,12 @@
 `get` helps you keep all of your git repositories that have GitHub
 remotes up to date.
 
+## Installation
+
+Please see the [issue](https://github.com/pearkes/get/issues/2).
+
+*This is temporary until binaries are properly compiled.*
+
 ## Getting Started
 
 The first time you run `get`, you pass it a path.
