@@ -6,7 +6,7 @@ import (
 )
 
 func usage() {
-	fmt.Println(`Usage: get [<path>] [-v] [-h] [-d]
+	fmt.Println(`Usage: get [-v] [-h] [-d] [<path>]
 
     -v, --version                   Prints the version and exits.
     -h, --help                      Prints the usage information.
