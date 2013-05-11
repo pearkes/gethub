@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+  "sync"
 )
 
 // The authorization sequence, required for someone without a ~/.getconfig
@@ -33,8 +34,46 @@ func sequence_update(env Env) {
 
 	repos := listRemoteRepostories(env)
 
-	checkRepo(repos[1], env)
+  fetches := []string{}
+  clones := []string{}
+  errors := []string{}
+  ignores := []string{}
+
+  var wg sync.WaitGroup
+  for _, repo := range repos {
+    wg.Add(1)
+
+    go func(repo Repo) {
+      fmt.Println(repo.Name())
+
+	    switch checkRepo(repo, env) {
+      case "fetch":
+        fetches = append(fetches, repo.Name())
+      case "clone":
+        clones = append(clones, repo.Name())
+      case "error":
+        errors = append(errors, repo.Name())
+      case "ignore":
+        ignores = append(ignores, repo.Name())
+      }
+      wg.Done()
+    }(repo)
+  }
+
+  wg.Wait()
+
+  fmt.Println("Updated repositories:", len(fetches))
+
+  fmt.Println("New repositories:", len(clones))
+  for _, repo := range clones {
+    fmt.Println("\t", repo)
+  }
+
+  if (len(errors) > 0) {
+    fmt.Println(len(errors), "error(s) encountered.")
+  }
 }
+
 
 // The check sequence, which goes through the basic health checks for
 // `get` to succesfully function.
