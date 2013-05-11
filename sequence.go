@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"strings"
 	"sync"
 )
 
@@ -31,7 +32,13 @@ authorization token from GitHub's API, which will be stored in
 func sequence_update(env Env) {
 	log.Println("Begin repository update sequence...")
 
+	fmt.Printf("Contacting GitHub... ")
+
 	repos := listRemoteRepostories(env)
+
+	fmt.Printf("%sdone%s\n", green, clear)
+
+	fmt.Printf("Updating local repositories: ")
 
 	fetches := []string{}
 	clones := []string{}
@@ -46,10 +53,13 @@ func sequence_update(env Env) {
 			switch checkRepo(repo, env) {
 			case "fetch":
 				fetches = append(fetches, repo.Name())
+				fmt.Printf("%s.%s", green, clear)
 			case "clone":
 				clones = append(clones, repo.Name())
+				fmt.Printf("%s.%s", green, clear)
 			case "error":
 				errors = append(errors, repo.Name())
+				fmt.Printf("%s.%s", red, clear)
 			case "ignore":
 				ignores = append(ignores, repo.Name())
 			}
@@ -60,16 +70,21 @@ func sequence_update(env Env) {
 	// Wait for every update to be finished
 	wg.Wait()
 
-	fmt.Println("Updated repositories:", len(fetches))
+	mess := []string{}
 
-	fmt.Println("New repositories:", len(clones))
-	for _, repo := range clones {
-		fmt.Println("\t", repo)
+	if len(fetches) > 0 {
+		mess = append(mess, fmt.Sprintf("%s%d repos updated%s", green, len(fetches), clear))
+	}
+
+	if len(clones) > 0 {
+		mess = append(mess, fmt.Sprintf("%s%d new repos%s (%s)", green, len(clones), clear, strings.Join(clones, ", ")))
 	}
 
 	if len(errors) > 0 {
-		fmt.Println(len(errors), "error(s) encountered.")
+		mess = append(mess, fmt.Sprintf("%s%d errors%s", red, len(errors), clear))
 	}
+
+	fmt.Printf("\n%s\n", strings.Join(mess, ", "))
 }
 
 // The check sequence, which goes through the basic health checks for
@@ -77,16 +92,13 @@ func sequence_update(env Env) {
 func sequence_checks(env Env) Env {
 	log.Println("Begin check sequence...")
 
-	// Inject configuration
-	env.Config = injectConfiguration()
-
-	// Check supplied path
-	checkPath(env)
-
 	// Check Configuration
 	checkConfiguration(env)
 
-	// Check configured path
+	// Inject configuration
+	env.Config = injectConfiguration()
+
+	// Check path
 	checkPath(env)
 
 	return env
