@@ -16,9 +16,12 @@ authorization token from GitHub's API, which will be stored in
 ~/.getconfig.
 `)
 
-	token := askForCredentials(env)
+	env = askForCredentials(env)
 
-	log.Println(token)
+	log.Println(env.Config.Username, env.Config.Token)
+
+	// Make the configuration file.
+	createConfiguration(env)
 
 	return env
 }

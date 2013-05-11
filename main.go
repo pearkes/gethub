@@ -19,7 +19,7 @@ type AuthorizeResponse struct {
 
 // Asks the user for credentials, and then makes a request to the
 // GitHub API to get an authorization token to store in ~/.getconfig
-func askForCredentials(env Env) string {
+func askForCredentials(env Env) Env {
 	log.Println("Asking user for credentials...")
 
 	var username string
@@ -83,7 +83,11 @@ func askForCredentials(env Env) string {
 
 	log.Println(string(body))
 
-	return auth.Token
+	// Set the discovered credentials into the environment
+	env.Config.Token = auth.Token
+	env.Config.Username = username
+
+	return env
 }
 
 // Parses options sent to `get` and kicks off the main event.

@@ -35,8 +35,21 @@ type Locals struct {
 }
 
 // Creates configuration at ~/.getconfig.
-func createConfiguration() {
+func createConfiguration(env Env) {
 	log.Println("Creating configuration...")
+	conf := config.NewDefault()
+
+	// Create the configuration file sections and items
+	conf.AddSection("get")
+	conf.AddSection("github")
+	conf.AddSection("ignores")
+	conf.AddOption("get", "path", env.ProvidedPath)
+	conf.AddOption("github", "username", env.Config.Username)
+	conf.AddOption("github", "token", env.Config.Token)
+	conf.AddOption("ignores", "repo", "")
+	conf.AddOption("ignores", "owner", "")
+
+	conf.WriteFile(os.Getenv("HOME")+"/.getconfig", 0644, "")
 }
 
 // Injects the configuration into the environment.
@@ -111,7 +124,9 @@ func checkPath(env Env) {
 	_, err := os.Stat(path)
 
 	if err != nil {
-		// They haven't set-up a path, let's take them through it.
-		sequence_authorize(env)
+		// They haven't set-up a path, or passed one in, so we're going
+		// to assume they want to do it here.
+		fmt.Println("\x1b[1;31;40mIt looks like you've never run get before. You need to provide a path the first time.\x1b[0m\n")
+		os.Exit(1)
 	}
 }
