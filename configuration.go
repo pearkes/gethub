@@ -44,7 +44,7 @@ func injectConfiguration() Configuration {
 	log.Println("Injecting configuration...")
 
 	// Read the file from their home directory
-	c, err := config.ReadDefault("/Users/" + os.Getenv("USER") + "/.getconfig")
+	c, err := config.ReadDefault(os.Getenv("HOME") + "/.getconfig")
 
 	if err != nil {
 		fmt.Println("Error reading from ~/.getconfig.")
