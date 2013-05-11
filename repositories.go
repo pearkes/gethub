@@ -9,7 +9,7 @@ import (
 )
 
 func cloneRepo(repo Repo, env Env) error {
-	repoPath := env.Config.Path + repo.FullName
+	repoPath := env.Config.Path + "/" + repo.FullName
 	log.Println("Cloning new repository:", repoPath)
 
 	// Clone into the current directory
@@ -35,7 +35,7 @@ func cloneRepo(repo Repo, env Env) error {
 }
 
 func fetchRepo(repo Repo, env Env) error {
-	repoPath := env.Config.Path + repo.FullName
+	repoPath := env.Config.Path + "/" + repo.FullName
 
 	log.Println("Fetching new repository:", repoPath)
 
@@ -71,7 +71,7 @@ func fetchRepo(repo Repo, env Env) error {
 // This returns "error", "fetch", "clone" or "ignore"
 func checkRepo(repo Repo, env Env) string {
 	log.Println("Starting check for:", repo.FullName)
-	repoPath := env.Config.Path + repo.FullName
+	repoPath := env.Config.Path + "/" + repo.FullName
 
 	// Check if the repo is ignored by it's name
 	for _, ignoredName := range env.Config.IgnoredRepos {

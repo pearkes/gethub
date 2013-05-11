@@ -41,13 +41,16 @@ func sequence_update(env Env) {
 func sequence_checks(env Env) Env {
 	log.Println("Begin check sequence...")
 
-	// Check Configuration
-	checkConfiguration(env)
-
 	// Inject configuration
 	env.Config = injectConfiguration()
 
 	// Check supplied path
+	checkPath(env)
+
+	// Check Configuration
+	checkConfiguration(env)
+
+	// Check configured path
 	checkPath(env)
 
 	return env

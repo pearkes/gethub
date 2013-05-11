@@ -25,14 +25,6 @@ type Configuration struct {
 	IgnoredRepos  []string
 }
 
-// type Locals represents the list of local owners (1st level) and
-// local repos (2nd level). It is read from the file system, from the
-// path specified by either an argument or the configuration.
-type Locals struct {
-	Owners []string
-	Repos  []string
-}
-
 // Creates configuration at ~/.getconfig.
 func createConfiguration(env Env) {
 	log.Println("Creating configuration...")
@@ -111,21 +103,33 @@ func checkConfiguration(env Env) {
 func checkPath(env Env) {
 	log.Println("Checking path...")
 
-	var path string
+	if env.Config.Path != "" {
+		// If we have the configuration, check the path provided there.
+		stat, _ := os.Stat(env.Config.Path)
 
-	if env.ProvidedPath != "" {
-		path = env.ProvidedPath
+		if stat.IsDir() != true {
+			// If the configured path isn't a directory, tell the user.
+			fmt.Println("\x1b[1;31;40mYour configured path (~/.getconfig) doesn't appear to be a directory.\x1b[0m\n")
+			os.Exit(1)
+		}
 
-	} else if env.Config.Path != "" {
-		path = env.Config.Path
+	} else {
+		// If we don't have configuration, perform a check on the provided
+		// path.
+		var path string
+
+		if env.ProvidedPath != "" {
+			path = env.ProvidedPath
+		}
+
+		_, err := os.Stat(path)
+
+		if err != nil {
+			// They haven't set-up a path, or passed one in, so we're going
+			// to assume they want to do it here.
+			fmt.Println("\x1b[1;31;40mYou need to provide a path to clone your repositories to the first time your run get.\x1b[0m\n")
+			usage()
+		}
 	}
 
-	_, err := os.Stat(path)
-
-	if err != nil {
-		// They haven't set-up a path, or passed one in, so we're going
-		// to assume they want to do it here.
-		fmt.Println("\x1b[1;31;40mIt looks like you've never run get before. You need to provide a path the first time.\x1b[0m\n")
-		os.Exit(1)
-	}
 }
