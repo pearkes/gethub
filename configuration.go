@@ -79,14 +79,14 @@ func checkConfiguration(env Env) {
 
 	// Check to see if the file exists at all. If not, drop into
 	// the authorization sequence.
-	_, err := os.Stat("/Users/" + os.Getenv("USER") + "/.getconfig")
+	_, err := os.Stat(os.Getenv("HOME") + "/.getconfig")
 
 	if err != nil {
 		sequence_authorize(env)
 	}
 
 	// Read the file from their home directory
-	_, err2 := config.ReadDefault("/Users/" + os.Getenv("USER") + "/.getconfig")
+	_, err2 := config.ReadDefault(os.Getenv("HOME") + "/.getconfig")
 
 	if err2 != nil {
 		fmt.Println("Your ~/.getconfig file may be corrupt. Try deleting it?")
