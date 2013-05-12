@@ -17,7 +17,7 @@ Please see the [issue](https://github.com/pearkes/get/issues/2).
 
 The first time you run `get`, you pass it a path.
 
-    $ get .
+    $ get ~/code
 
 After authorizing with GitHub, all of your repositories will
 be cloned into this path.
