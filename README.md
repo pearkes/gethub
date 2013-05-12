@@ -3,6 +3,7 @@
 ![](https://f.cloud.github.com/assets/846194/491605/3c2635ee-ba44-11e2-9d04-01b3922aec8a.gif)
 
 ## Overview
+[![Build Status](https://travis-ci.org/pearkes/get.png?branch=master)](https://travis-ci.org/pearkes/get)
 
 `get` helps you keep all of your git repositories that have GitHub
 remotes up to date.
