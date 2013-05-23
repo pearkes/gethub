@@ -46,10 +46,13 @@ func sequence_update(env Env) {
 	ignores := []string{}
 
 	// Asynchronously update each repository
+	maxConcurrent := 32
+	var sem = make(chan int, maxConcurrent) // Counting semaphore
 	var wg sync.WaitGroup
 	for _, repo := range repos {
 		wg.Add(1)
 		go func(repo Repo) {
+			sem <- 1 // Wait
 			switch checkRepo(repo, env) {
 			case "fetch":
 				fetches = append(fetches, repo.Name())
@@ -63,6 +66,7 @@ func sequence_update(env Env) {
 			case "ignore":
 				ignores = append(ignores, repo.Name())
 			}
+			<-sem // Signal
 			wg.Done()
 		}(repo)
 	}
