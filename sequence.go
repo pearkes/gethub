@@ -46,7 +46,8 @@ func sequence_update(env Env) {
 	ignores := []string{}
 
 	// Asynchronously update each repository
-	var sem = make(chan int, 8) // Counting semaphore
+	maxConcurrent := 32
+	var sem = make(chan int, maxConcurrent) // Counting semaphore
 	var wg sync.WaitGroup
 	for _, repo := range repos {
 		wg.Add(1)
