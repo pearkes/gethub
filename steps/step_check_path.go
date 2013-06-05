@@ -7,7 +7,14 @@ import (
 type stepCheckPath struct{}
 
 func (*stepCheckPath) Run(state map[string]interface{}) multistep.StepAction {
-	// Do some stuff
+	stat, _ := os.Stat(state["path"])
+
+	if stat.IsDir() != true {
+		// If the configured path isn't a directory, tell the user.
+		fmt.Println(RED + "Your configured path (~/.getconfig) doesn't appear to be a directory." + CLEAR)
+		return multistep.ActionHalt
+	}
+
 	return multistep.ActionContinue
 }
 
