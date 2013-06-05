@@ -55,8 +55,10 @@ func main() {
 func updateRunner(state map[string]interface{}) {
 
 	steps := []multistep.Step{
-		&stepCheckConfiguration{},
+		&stepCheckConfigurationFile{},
 		&stepCheckPath{},
+		&stepInjectConfiguration{},
+		&stepCheckConfiguration{},
 	}
 
 	runner := &multistep.BasicRunner{Steps: steps}

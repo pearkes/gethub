@@ -5,10 +5,10 @@ import (
 	"testing"
 )
 
-func TestStepUpdateRepositories(t *testing.T) {
+func TestStepCheckPath(t *testing.T) {
 	env = make(map[string]interface{})
 
-	results := stepUpdateRepositories.Run(env)
+	results := stepCheckPath.Run(env)
 
 	if results != multistep.ActionContinue {
 		t.Fatal("step did not return ActionContinue")
