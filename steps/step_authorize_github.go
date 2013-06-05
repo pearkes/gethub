@@ -22,6 +22,10 @@ type AuthorizeResponse struct {
 func (*StepAuthorizeGithub) Run(state map[string]interface{}) multistep.StepAction {
 	log.Println("Begin authorization sequence...")
 
+	fmt.Printf("Please enter the path you would like gethub to store respositories: ")
+	var path string
+	_, err := fmt.Scanf("%s", &path)
+
 	// Let the user know what will happen.
 	fmt.Println(`Your username and password will be used once to obtain a unique
 authorization token from GitHub's API, which will be stored in
@@ -32,10 +36,9 @@ authorization token from GitHub's API, which will be stored in
 	// GitHub API to get an authorization token to store in ~/.getconfig
 	log.Println("Asking user for credentials...")
 
-	var username string
-
 	fmt.Printf("Please enter your GitHub username: ")
-	_, err := fmt.Scanf("%s", &username)
+	var username string
+	_, err = fmt.Scanf("%s", &username)
 
 	if err != nil {
 		log.Println(err)
@@ -98,6 +101,7 @@ authorization token from GitHub's API, which will be stored in
 	// Set the discovered credentials into the bag of state
 	state["token"] = auth.Token
 	state["username"] = username
+	state["path"] = path
 
 	log.Println(username)
 

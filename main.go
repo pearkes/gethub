@@ -23,7 +23,7 @@ func main() {
 	arg := flag.Arg(0)
 
 	// Discard logging if debug is turned off.
-	if *debug == false {
+	if *debug == true {
 		log.SetOutput(ioutil.Discard)
 	}
 
@@ -57,8 +57,8 @@ func updateRunner(state map[string]interface{}) {
 
 	steps := []multistep.Step{
 		&steps.StepCheckConfigurationFile{},
-		&steps.StepCheckPath{},
 		&steps.StepInjectConfiguration{},
+		&steps.StepCheckPath{},
 		&steps.StepCheckConfiguration{},
 	}
 
@@ -71,8 +71,10 @@ func updateRunner(state map[string]interface{}) {
 func authorizeRunner(state map[string]interface{}) {
 
 	steps := []multistep.Step{
-		&steps.StepCheckPath{},
+		&steps.StepAuthorizeGithub{},
 		&steps.StepCreateConfiguration{},
+		&steps.StepCheckConfigurationFile{},
+		&steps.StepCheckConfiguration{},
 	}
 
 	runner := &multistep.BasicRunner{Steps: steps}

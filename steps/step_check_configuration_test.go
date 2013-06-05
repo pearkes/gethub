@@ -6,6 +6,7 @@ import (
 )
 
 func TestStepCheckConfiguration(t *testing.T) {
+
 	env = make(map[string]interface{})
 
 	results := stepCheckConfiguration.Run(env)

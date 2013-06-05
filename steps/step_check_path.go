@@ -3,12 +3,15 @@ package steps
 import (
 	"fmt"
 	"github.com/mitchellh/multistep"
+	"log"
 	"os"
 )
 
 type StepCheckPath struct{}
 
 func (*StepCheckPath) Run(state map[string]interface{}) multistep.StepAction {
+	log.Println("Checking path...")
+
 	repoPath := state["path"].(string)
 
 	stat, _ := os.Stat(repoPath)

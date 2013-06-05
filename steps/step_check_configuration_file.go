@@ -13,10 +13,16 @@ type StepCheckConfigurationFile struct{}
 // Checks the configuration on the filesystem for syntax errors or
 // non-exsistance.
 func (*StepCheckConfigurationFile) Run(state map[string]interface{}) multistep.StepAction {
-	log.Println("Checking configuration...")
+	log.Println("Checking configuration file...")
 
 	var configPath string
-	path, _ := state["path"].(string)
+	var path string
+
+	if state["config_path"] != nil {
+		path, _ = state["config_path"].(string)
+	} else {
+		path = ""
+	}
 
 	// Determine if we are dealing with a custom config path
 	if path == "" {
