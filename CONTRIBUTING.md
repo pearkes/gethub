@@ -11,11 +11,11 @@
 If you don't mind running the problem command (if applicable) in debug
 mode and dumping the output in your GitHub issue, it'd be very helpful.
 
-    get --debug [<command>]
+    gethub --debug [<command>]
 
 ## Development Environment
 
-To add a feature, fix a bug, or to run a development build of `get`
+To add a feature, fix a bug, or to run a development build of `gethub`
 on your machine, you'll need to have [go](http://golang.org/) installed.
 
 You can then build a binary:
@@ -24,7 +24,7 @@ You can then build a binary:
 
 And run it:
 
-    $ ./get
+    $ ./gethub
 
 To install the development binary on your system:
 

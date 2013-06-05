@@ -19,16 +19,16 @@ func (*StepCreateConfiguration) Run(state map[string]interface{}) multistep.Step
 	conf := config.NewDefault()
 
 	// Create the configuration file sections and items
-	conf.AddSection("get")
+	conf.AddSection("gethub")
 	conf.AddSection("github")
 	conf.AddSection("ignores")
-	conf.AddOption("get", "path", path)
+	conf.AddOption("gethub", "path", path)
 	conf.AddOption("github", "username", username)
 	conf.AddOption("github", "token", token)
 	conf.AddOption("ignores", "repo", "")
 	conf.AddOption("ignores", "owner", "")
 
-	conf.WriteFile(os.Getenv("HOME")+"/.getconfig", 0644, "")
+	conf.WriteFile(os.Getenv("HOME")+"/.gethubconfig", 0644, "")
 
 	return multistep.ActionContinue
 }

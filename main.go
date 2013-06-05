@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/mitchellh/multistep"
-	"github.com/pearkes/get/steps"
+	"github.com/pearkes/gethub/steps"
 	"io/ioutil"
 	"log"
 	"os"

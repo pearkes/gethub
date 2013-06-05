@@ -1,11 +1,11 @@
-# get
+# gethub
 
 ![](https://f.cloud.github.com/assets/846194/491605/3c2635ee-ba44-11e2-9d04-01b3922aec8a.gif)
 
 ## Overview
 [![Build Status](https://travis-ci.org/pearkes/get.png?branch=master)](https://travis-ci.org/pearkes/get)
 
-`get` helps you keep all of your git repositories that have GitHub
+`gethub` helps you keep all of your git repositories that have GitHub
 remotes up to date.
 
 ## Installation
@@ -16,14 +16,14 @@ Please see the [issue](https://github.com/pearkes/get/issues/2).
 
 ## Getting Started
 
-The first time you run `get`, you pass it a path.
+The first time you run `gethub`, you pass it a path.
 
-    $ get ~/code
+    $ gethub .
 
 After authorizing with GitHub, all of your repositories will
 be cloned into this path.
 
-The next time you run a `get`, all of your new repositories will be cloned
+The next time you run a `gethub`, all of your new repositories will be cloned
 and your existing repositories will be fetched.
 
 It's useful if you have a lot of repos and may not have an
@@ -34,7 +34,7 @@ internet connection. Never leave home without a `get`.™
 It's opinionated about how you organize your repositories.
 
     ├── pearkes
-    │   ├── get
+    │   ├── gethub
     │   ├── tugboat
     │   └── jack.ly
     ├── mitchellh
@@ -51,7 +51,7 @@ to who the owner is on GitHub.
 
 ## Behind the Curtain
 
-    $ get
+    $ gethub
 
 1. Checks to see if the necessary requirements for `get` exist,
 like it's `~/.getconfig` file.
@@ -64,8 +64,8 @@ subsequently creates a `~/.getconfig` file for future use.
 
 ## Configuration
 
-Configuration is stored in a `.getconfig` file in your home directory.
-(`~/.getconfig`)
+Configuration is stored in a `.gethubconfig` file in your home directory.
+(`~/.gethubconfig`)
 
 ### Ignored Repositories or Organizations
 
