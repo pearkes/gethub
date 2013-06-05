@@ -1,30 +1,32 @@
 package steps
 
 import (
+	"fmt"
 	"github.com/mitchellh/multistep"
+	"log"
+	"strings"
+	"sync"
 )
 
-type stepUpdateRepositories struct{}
+type StepUpdateRepositories struct{}
 
-func (*stepUpdateRepositories) Run(state map[string]interface{}) multistep.StepAction {
+func (*StepUpdateRepositories) Run(state map[string]interface{}) multistep.StepAction {
 	log.Println("Begin repository update sequence...")
 	fmt.Printf("Contacting GitHub... ")
-	repos := listRemoteRepostories(env)
+	repos := state["repos"].([]Repo)
 
-	fmt.Printf("%sdone%s\n", green, clear)
+	fmt.Printf("%sdone%s\n", GREEN, CLEAR)
 
 	fmt.Printf("Updating repositories: ")
 
 	fetches := []string{}
 	clones := []string{}
 	errors := []string{}
-	ignores := []string{}
 
 	steps := []multistep.Step{
-		&stepCheckRepo{},
-		&stepCheckPath{},
-		&stepFetchRepo{},
-		&stepCloneRepo{},
+		&StepCheckRepo{},
+		&StepFetchRepo{},
+		&StepCloneRepo{},
 	}
 
 	// Asynchronously update each repository
@@ -45,15 +47,15 @@ func (*stepUpdateRepositories) Run(state map[string]interface{}) multistep.StepA
 	mess := []string{}
 
 	if len(fetches) > 0 {
-		mess = append(mess, fmt.Sprintf("%s%d repos updated%s", green, len(fetches), clear))
+		mess = append(mess, fmt.Sprintf("%s%d repos updated%s", GREEN, len(fetches), CLEAR))
 	}
 
 	if len(clones) > 0 {
-		mess = append(mess, fmt.Sprintf("%s%d new repos%s (%s)", green, len(clones), clear, strings.Join(clones, ", ")))
+		mess = append(mess, fmt.Sprintf("%s%d new repos%s (%s)", GREEN, len(clones), CLEAR, strings.Join(clones, ", ")))
 	}
 
 	if len(errors) > 0 {
-		mess = append(mess, fmt.Sprintf("%s%d errors%s", red, len(errors), clear))
+		mess = append(mess, fmt.Sprintf("%s%d errors%s", RED, len(errors), CLEAR))
 	}
 
 	fmt.Printf("\n%s\n", strings.Join(mess, ", "))
@@ -61,4 +63,4 @@ func (*stepUpdateRepositories) Run(state map[string]interface{}) multistep.StepA
 	return multistep.ActionContinue
 }
 
-func (*stepUpdateRepositories) Cleanup(map[string]interface{}) {}
+func (*StepUpdateRepositories) Cleanup(map[string]interface{}) {}

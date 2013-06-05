@@ -1,7 +1,13 @@
 package steps
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/mitchellh/multistep"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"strings"
 )
 
 // type Repo represents a single repository
@@ -19,16 +25,18 @@ func (r Repo) Name() string {
 	return strings.Split(r.FullName, "/")[1]
 }
 
-type stepRetrieveRepositories struct{}
+type StepRetrieveRepositories struct{}
 
-func (*stepRetrieveRepositories) Run(state map[string]interface{}) multistep.StepAction {
+func (*StepRetrieveRepositories) Run(state map[string]interface{}) multistep.StepAction {
 	log.Println("Retrieving remote repositories...")
+	token := state["token"].(string)
+
 	client := &http.Client{}
 
 	req, err := http.NewRequest("GET",
 		"https://api.github.com/user/repos?type=all&per_page=100", nil)
 
-	req.SetBasicAuth(state["token"], "")
+	req.SetBasicAuth(token, "")
 
 	resp, err := client.Do(req)
 
@@ -57,7 +65,7 @@ func (*stepRetrieveRepositories) Run(state map[string]interface{}) multistep.Ste
 	log.Println(resp.Status)
 
 	if resp.StatusCode != 200 {
-		fmt.Println(red + "Uh oh, there was an error getting your repositories from GitHub. Here's what we got back:\n" + clear)
+		fmt.Println(RED + "Uh oh, there was an error getting your repositories from GitHub. Here's what we got back:\n" + CLEAR)
 		fmt.Println(string(body))
 		return multistep.ActionHalt
 	}
@@ -69,4 +77,4 @@ func (*stepRetrieveRepositories) Run(state map[string]interface{}) multistep.Ste
 	return multistep.ActionContinue
 }
 
-func (*stepRetrieveRepositories) Cleanup(map[string]interface{}) {}
+func (*StepRetrieveRepositories) Cleanup(map[string]interface{}) {}

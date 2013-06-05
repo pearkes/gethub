@@ -4,11 +4,11 @@ import (
 	"github.com/mitchellh/multistep"
 )
 
-type stepCheckConfiguration struct{}
+type StepCheckConfiguration struct{}
 
-func (*stepCheckConfiguration) Run(state map[string]interface{}) multistep.StepAction {
+func (*StepCheckConfiguration) Run(state map[string]interface{}) multistep.StepAction {
 	// Do some stuff
 	return multistep.ActionContinue
 }
 
-func (*stepCheckConfiguration) Cleanup(map[string]interface{}) {}
+func (*StepCheckConfiguration) Cleanup(map[string]interface{}) {}

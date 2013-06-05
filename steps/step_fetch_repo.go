@@ -1,20 +1,27 @@
 package steps
 
 import (
+	"bytes"
+	"fmt"
 	"github.com/mitchellh/multistep"
+	"log"
+	"os/exec"
 )
 
-type stepFetchRepo struct{}
+type StepFetchRepo struct{}
 
-func (*stepFetchRepo) Run(state map[string]interface{}) multistep.StepAction {
-	if state["repo_state"] != "fetch" {
-		log.Println("Skipping clone, repo state is " + repo_state)
+func (*StepFetchRepo) Run(state map[string]interface{}) multistep.StepAction {
+	repoState := state["repo_state"].(string)
+
+	if repoState != "fetch" {
+		log.Println("Skipping clone, repo state is " + repoState)
 		return multistep.ActionContinue
 	}
 
-	repo := state["repo"]
+	repo := state["repo"].(Repo)
+	path := state["path"].(string)
 
-	repoPath := state["repos_path"] + "/" + repo.FullName
+	repoPath := path + "/" + repo.FullName
 
 	log.Println("Fetching existing repository:", repoPath)
 
@@ -33,7 +40,7 @@ func (*stepFetchRepo) Run(state map[string]interface{}) multistep.StepAction {
 
 	// If an error occurs, return a new error with the stdout
 	if err != nil {
-		log.Println("Error fetching " + repo.FullName())
+		log.Println("Error fetching " + repo.FullName)
 		fmt.Printf("%s.%s", RED, CLEAR)
 		return multistep.ActionHalt
 	}
@@ -43,4 +50,4 @@ func (*stepFetchRepo) Run(state map[string]interface{}) multistep.StepAction {
 	return multistep.ActionContinue
 }
 
-func (*stepFetchRepo) Cleanup(map[string]interface{}) {}
+func (*StepFetchRepo) Cleanup(map[string]interface{}) {}

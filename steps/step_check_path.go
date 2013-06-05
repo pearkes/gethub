@@ -1,13 +1,17 @@
 package steps
 
 import (
+	"fmt"
 	"github.com/mitchellh/multistep"
+	"os"
 )
 
-type stepCheckPath struct{}
+type StepCheckPath struct{}
 
-func (*stepCheckPath) Run(state map[string]interface{}) multistep.StepAction {
-	stat, _ := os.Stat(state["path"])
+func (*StepCheckPath) Run(state map[string]interface{}) multistep.StepAction {
+	repoPath := state["path"].(string)
+
+	stat, _ := os.Stat(repoPath)
 
 	if stat.IsDir() != true {
 		// If the configured path isn't a directory, tell the user.
@@ -18,4 +22,4 @@ func (*stepCheckPath) Run(state map[string]interface{}) multistep.StepAction {
 	return multistep.ActionContinue
 }
 
-func (*stepCheckPath) Cleanup(map[string]interface{}) {}
+func (*StepCheckPath) Cleanup(map[string]interface{}) {}

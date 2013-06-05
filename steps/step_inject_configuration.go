@@ -2,20 +2,19 @@ package steps
 
 import (
 	"github.com/mitchellh/multistep"
+	"github.com/pearkes/goconfig/config"
+	"log"
+	"os"
+	"strings"
 )
 
-type stepInjectConfiguration struct{}
+type StepInjectConfiguration struct{}
 
-func (*stepInjectConfiguration) Run(state map[string]interface{}) multistep.StepAction {
+func (*StepInjectConfiguration) Run(state map[string]interface{}) multistep.StepAction {
 	log.Println("Injecting configuration...")
 
 	// Read the file from their home directory
-	c, err := config.ReadDefault(os.Getenv("HOME") + "/.getconfig")
-
-	if err != nil {
-		fmt.Println("Error reading from ~/.getconfig")
-		return multistep.ActionHalt
-	}
+	c, _ := config.ReadDefault(os.Getenv("HOME") + "/.getconfig")
 
 	ignoredRepos, _ := c.String("ignores", "repo")
 	ignoredOwners, _ := c.String("ignores", "owner")
@@ -29,4 +28,4 @@ func (*stepInjectConfiguration) Run(state map[string]interface{}) multistep.Step
 	return multistep.ActionContinue
 }
 
-func (*stepInjectConfiguration) Cleanup(map[string]interface{}) {}
+func (*StepInjectConfiguration) Cleanup(map[string]interface{}) {}

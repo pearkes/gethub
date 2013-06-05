@@ -4,25 +4,22 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"fmt"
 	"github.com/howeyc/gopass"
 	"github.com/mitchellh/multistep"
 	"io/ioutil"
 	"log"
-	"log"
 	"net/http"
-	"os"
 	"strings"
 )
 
-type stepAuthorizeGithub struct{}
+type StepAuthorizeGithub struct{}
 
 type AuthorizeResponse struct {
 	Token string `json:token`
 }
 
 // The authorization sequence, required for someone without a ~/.getconfig
-func (*stepAuthorizeGithub) Run(state map[string]interface{}) multistep.StepAction {
+func (*StepAuthorizeGithub) Run(state map[string]interface{}) multistep.StepAction {
 	log.Println("Begin authorization sequence...")
 
 	// Let the user know what will happen.
@@ -89,11 +86,11 @@ authorization token from GitHub's API, which will be stored in
 	log.Println(resp.Status)
 
 	if resp.StatusCode != 201 {
-		fmt.Println(red + "Uh oh, there was an error authenticating with GitHub. Here's what we got back:\n" + clear)
+		fmt.Println(RED + "Uh oh, there was an error authenticating with GitHub. Here's what we got back:\n" + CLEAR)
 		fmt.Println(string(body))
 		return multistep.ActionHalt
 	} else {
-		fmt.Println(green + "Succesfully authenticated with Github." + clear)
+		fmt.Println(GREEN + "Succesfully authenticated with Github." + CLEAR)
 	}
 
 	log.Println(string(body))
@@ -107,4 +104,4 @@ authorization token from GitHub's API, which will be stored in
 	return multistep.ActionContinue
 }
 
-func (*stepAuthorizeGithub) Cleanup(map[string]interface{}) {}
+func (*StepAuthorizeGithub) Cleanup(map[string]interface{}) {}

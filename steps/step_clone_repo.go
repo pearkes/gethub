@@ -1,20 +1,27 @@
 package steps
 
 import (
+	"fmt"
 	"github.com/mitchellh/multistep"
+	"log"
+	"os"
+	"os/exec"
 )
 
-type stepCloneRepo struct{}
+type StepCloneRepo struct{}
 
-func (*stepCloneRepo) Run(state map[string]interface{}) multistep.StepAction {
-	if state["repo_state"] != "clone" {
-		log.Println("Skipping clone, repo state is " + repo_state)
+func (*StepCloneRepo) Run(state map[string]interface{}) multistep.StepAction {
+	repoState := state["repo_state"].(string)
+
+	if repoState != "clone" {
+		log.Println("Skipping clone, repo state is " + repoState)
 		return multistep.ActionContinue
 	}
 
-	repo := state["repo"]
+	repo := state["repo"].(Repo)
+	path := state["path"].(string)
 
-	repoPath := state["repos_path"] + "/" + repo.FullName
+	repoPath := path + "/" + repo.FullName
 
 	log.Println("Cloning new repository:", repoPath)
 
@@ -49,4 +56,4 @@ func (*stepCloneRepo) Run(state map[string]interface{}) multistep.StepAction {
 	return multistep.ActionContinue
 }
 
-func (*stepCloneRepo) Cleanup(map[string]interface{}) {}
+func (*StepCloneRepo) Cleanup(map[string]interface{}) {}

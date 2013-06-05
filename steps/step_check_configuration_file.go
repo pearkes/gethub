@@ -1,26 +1,31 @@
 package steps
 
 import (
+	"fmt"
 	"github.com/mitchellh/multistep"
+	"github.com/pearkes/goconfig/config"
+	"log"
+	"os"
 )
 
-type stepCheckConfigurationFile struct{}
+type StepCheckConfigurationFile struct{}
 
 // Checks the configuration on the filesystem for syntax errors or
 // non-exsistance.
-func (*stepCheckConfigurationFile) Run(state map[string]interface{}) multistep.StepAction {
+func (*StepCheckConfigurationFile) Run(state map[string]interface{}) multistep.StepAction {
 	log.Println("Checking configuration...")
 
 	var configPath string
+	path, _ := state["path"].(string)
 
 	// Determine if we are dealing with a custom config path
-	if state["config_path"] == "" {
+	if path == "" {
 		// Default to the home directory
 		configPath = os.Getenv("HOME") + "/.getconfig"
 	} else {
 		// They've specified a custom config path
-		log.Println("Environment specified config path " + state["config_path"])
-		configPath = state["config_path"] + "/.getconfig"
+		log.Println("Environment specified config path", path)
+		configPath = path + "/.getconfig"
 	}
 
 	// Is the config file even there?
@@ -42,4 +47,4 @@ func (*stepCheckConfigurationFile) Run(state map[string]interface{}) multistep.S
 	return multistep.ActionContinue
 }
 
-func (*stepCheckConfigurationFile) Cleanup(map[string]interface{}) {}
+func (*StepCheckConfigurationFile) Cleanup(map[string]interface{}) {}

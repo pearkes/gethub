@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/mitchellh/multistep"
 	"github.com/pearkes/get/steps"
 	"io/ioutil"
 	"log"
@@ -55,10 +56,10 @@ func main() {
 func updateRunner(state map[string]interface{}) {
 
 	steps := []multistep.Step{
-		&stepCheckConfigurationFile{},
-		&stepCheckPath{},
-		&stepInjectConfiguration{},
-		&stepCheckConfiguration{},
+		&steps.StepCheckConfigurationFile{},
+		&steps.StepCheckPath{},
+		&steps.StepInjectConfiguration{},
+		&steps.StepCheckConfiguration{},
 	}
 
 	runner := &multistep.BasicRunner{Steps: steps}
@@ -70,8 +71,8 @@ func updateRunner(state map[string]interface{}) {
 func authorizeRunner(state map[string]interface{}) {
 
 	steps := []multistep.Step{
-		&stepCheckPath{},
-		&stepCreateConfiguration{},
+		&steps.StepCheckPath{},
+		&steps.StepCreateConfiguration{},
 	}
 
 	runner := &multistep.BasicRunner{Steps: steps}

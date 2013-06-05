@@ -4,26 +4,33 @@ import (
 	"github.com/mitchellh/multistep"
 	"github.com/pearkes/goconfig/config"
 	"log"
+	"os"
 )
 
-type stepCheckPath struct{}
+type StepCreateConfiguration struct{}
 
-func (*stepCreateConfiguration) Run(state map[string]interface{}) multistep.StepAction {
+func (*StepCreateConfiguration) Run(state map[string]interface{}) multistep.StepAction {
 	log.Println("Creating configuration...")
+
+	path := state["path"].(string)
+	username := state["username"].(string)
+	token := state["token"].(string)
+
 	conf := config.NewDefault()
 
 	// Create the configuration file sections and items
 	conf.AddSection("get")
 	conf.AddSection("github")
 	conf.AddSection("ignores")
-	conf.AddOption("get", "path", state["provided_path"])
-	conf.AddOption("github", "username", state["username"])
-	conf.AddOption("github", "token", state["token"])
+	conf.AddOption("get", "path", path)
+	conf.AddOption("github", "username", username)
+	conf.AddOption("github", "token", token)
 	conf.AddOption("ignores", "repo", "")
 	conf.AddOption("ignores", "owner", "")
 
 	conf.WriteFile(os.Getenv("HOME")+"/.getconfig", 0644, "")
+
 	return multistep.ActionContinue
 }
 
-func (*stepCreateConfiguration) Cleanup(map[string]interface{}) {}
+func (*StepCreateConfiguration) Cleanup(map[string]interface{}) {}

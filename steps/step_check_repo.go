@@ -2,30 +2,30 @@ package steps
 
 import (
 	"github.com/mitchellh/multistep"
-	"bytes"
-	"errors"
 	"log"
 	"os"
-	"os/exec"
 )
 
-type stepCheckRepo struct{}
+type StepCheckRepo struct{}
 
-func (*stepCheckRepo) Run(state map[string]interface{}) multistep.StepAction {
-    repo := state["repo"]
+func (*StepCheckRepo) Run(state map[string]interface{}) multistep.StepAction {
+	repo := state["repo"].(Repo)
+	path := state["path"].(string)
+	ignoredRepos := state["ignored_repos"].([]string)
+	ignoredOwners := state["ignored_owners"].([]string)
 
 	log.Println("Starting check for:", repo.FullName)
-	repoPath := state["repos_path"] + "/" + repo.FullName
+	repoPath := path + "/" + repo.FullName
 
 	// Check if the repo is ignored by it's name
-	for _, ignoredName := range state["ignored_repos"] {
+	for _, ignoredName := range ignoredRepos {
 		if ignoredName == repo.Name() {
 			state["repo_state"] = "ignore"
 		}
 	}
 
 	// Check if the repo is ignored by it's owner
-	for _, ignoredOwner := state["ignored_owners"] {
+	for _, ignoredOwner := range ignoredOwners {
 		if ignoredOwner == repo.Owner() {
 			state["repo_state"] = "ignore"
 		}
@@ -38,7 +38,7 @@ func (*stepCheckRepo) Run(state map[string]interface{}) multistep.StepAction {
 	stat, staterr := os.Stat(gitPath)
 
 	if staterr != nil || stat.IsDir() != true {
-        state["repo_state"] = "clone"
+		state["repo_state"] = "clone"
 	} else {
 		// If the directory does exist, we want to run a fetch on it.
 		state["repo_state"] = "fetch"
@@ -47,4 +47,4 @@ func (*stepCheckRepo) Run(state map[string]interface{}) multistep.StepAction {
 	return multistep.ActionContinue
 }
 
-func (*stepCheckRepo) Cleanup(map[string]interface{}) {}
+func (*StepCheckRepo) Cleanup(map[string]interface{}) {}
