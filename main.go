@@ -3,20 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/pearkes/get/steps"
 	"io/ioutil"
 	"log"
 	"os"
 )
 
-// How do you make constants properly? Will accept pull requests.
-var (
-	red    = "\x1b[31m"
-	green  = "\x1b[32m"
-	yellow = "\x1b[33m"
-	clear  = "\x1b[0m"
-)
-
-// Parses options sent to `get` and kicks off the main event.
 func main() {
 	// Debugging and version flags
 	debug := flag.Bool("debug", false, "Logs debugging information to STDOUT.")
@@ -27,6 +19,7 @@ func main() {
 	// Override the flag.Usage function to print custom usage info.
 	flag.Usage = usage
 	flag.Parse()
+	arg := flag.Arg(0)
 
 	// Discard logging if debug is turned off.
 	if *debug == false {
@@ -42,11 +35,43 @@ func main() {
 	// Log enabled debugging
 	log.Println("Debugging enabled for", versionString())
 
-	env := Env{ProvidedPath: flag.Arg(0), Debug: *debug}
+	state := make(map[string]interface{})
+	state["debug"] = *debug
+	state["config_path"] = os.Getenv("GETCONFIG_PATH")
 
-	// Run checks
-	env = sequence_checks(env)
+	if arg == "authorize" {
+		authorizeRunner(state)
+	} else if arg == "" {
+		updateRunner(state)
+	} else {
+		fmt.Println("Invalid argument: " + arg)
+		// Prints the usage and exits
+		usage()
+	}
+}
 
-	// Update reposotories
-	sequence_update(env)
+// Builds the steps and kicks off the runner for updating
+// repositories.
+func updateRunner(state map[string]interface{}) {
+
+	steps := []multistep.Step{
+		&stepCheckConfiguration{},
+		&stepCheckPath{},
+	}
+
+	runner := &multistep.BasicRunner{Steps: steps}
+	runner.Run(state)
+}
+
+// Builds the steps and kicks off the runner for authorizing
+// and creating configuration.
+func authorizeRunner(state map[string]interface{}) {
+
+	steps := []multistep.Step{
+		&stepCheckPath{},
+		&stepCreateConfiguration{},
+	}
+
+	runner := &multistep.BasicRunner{Steps: steps}
+	runner.Run(state)
 }

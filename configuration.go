@@ -76,37 +76,9 @@ func injectConfiguration() Configuration {
 	return conf
 }
 
-// Checks the configuration on the filesystem for syntax errors or
-// non-exsistance.
-func checkConfiguration(env Env) {
-	log.Println("Checking configuration...")
-
-	// Check to see if the file exists at all. If not, drop into
-	// the authorization sequence.
-	_, err := os.Stat(os.Getenv("HOME") + "/.getconfig")
-
-	if err != nil {
-		// If the provided path is empty
-		if env.ProvidedPath == "" {
-			fmt.Println(red + "You need to provide a path to clone your repositories to the first time your run get." + clear)
-			usage()
-		}
-
-		sequence_authorize(env)
-	}
-
-	// Read the file from their home directory
-	_, err2 := config.ReadDefault(os.Getenv("HOME") + "/.getconfig")
-
-	if err2 != nil {
-		fmt.Println("Your ~/.getconfig file may be corrupt. Try deleting it?")
-	}
-
-}
-
 // Checks a path to see if it is get compatible. If not, it raises an
 // error.
-func checkPath(env Env) {
+func stepCheckPath(env Env) {
 	log.Println("Checking path...")
 
 	if env.Config.Path != "" {
