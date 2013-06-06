@@ -22,6 +22,7 @@ func (*StepCheckRepo) Run(state map[string]interface{}) multistep.StepAction {
 	for _, ignoredName := range ignoredRepos {
 		if ignoredName == repo.Name() {
 			state["repo_state"] = "ignore"
+			state["repo_result"] = "ignore"
 			return multistep.ActionContinue
 		}
 	}
@@ -30,6 +31,7 @@ func (*StepCheckRepo) Run(state map[string]interface{}) multistep.StepAction {
 	for _, ignoredOwner := range ignoredOwners {
 		if ignoredOwner == repo.Owner() {
 			state["repo_state"] = "ignore"
+			state["repo_result"] = "ignore"
 			return multistep.ActionContinue
 		}
 	}

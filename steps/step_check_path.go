@@ -18,7 +18,7 @@ func (*StepCheckPath) Run(state map[string]interface{}) multistep.StepAction {
 
 	if err != nil || stat.IsDir() != true {
 		// If the configured path isn't a directory, tell the user.
-		fmt.Println(RED + "Your configured path (~/.getconfig) doesn't appear to be a directory." + CLEAR)
+		fmt.Println(RED + "Your configured path (~/.gethubconfig) doesn't appear to be a directory." + CLEAR)
 		return multistep.ActionHalt
 	}
 

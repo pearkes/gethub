@@ -16,14 +16,26 @@ func (*StepInjectConfiguration) Run(state map[string]interface{}) multistep.Step
 	// Read the file from their home directory
 	c, _ := config.ReadDefault(os.Getenv("HOME") + "/.gethubconfig")
 
-	ignoredRepos, _ := c.String("ignores", "repo")
-	ignoredOwners, _ := c.String("ignores", "owner")
+	ignoredReposDirty, _ := c.String("ignores", "repo")
+	ignoredOwnersDirty, _ := c.String("ignores", "owner")
+
+	owners := []string{}
+	repos := []string{}
+
+	// Trim whitespace from the user configuration
+	for _, ignoredRepo := range strings.Split(ignoredReposDirty, ",") {
+		repos = append(repos, strings.TrimSpace(ignoredRepo))
+	}
+	for _, ignoredOwner := range strings.Split(ignoredOwnersDirty, ",") {
+		owners = append(owners, strings.TrimSpace(ignoredOwner))
+	}
 
 	state["path"], _ = c.String("gethub", "path")
 	state["token"], _ = c.String("github", "token")
 	state["username"], _ = c.String("github", "username")
-	state["ignored_repos"] = strings.Split(ignoredRepos, ",")
-	state["ignored_owners"] = strings.Split(ignoredOwners, ",")
+
+	state["ignored_repos"] = repos
+	state["ignored_owners"] = owners
 
 	return multistep.ActionContinue
 }

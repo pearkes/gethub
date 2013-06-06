@@ -40,6 +40,8 @@ func (*StepRetrieveRepositories) Run(state map[string]interface{}) multistep.Ste
 
 	token := state["token"].(string)
 
+	fmt.Printf("Contacting GitHub... ")
+
 	// Retrieve Organizations
 	body := apiRequest(token, "/user/orgs")
 	var orgs []Org
@@ -81,6 +83,8 @@ func (*StepRetrieveRepositories) Run(state map[string]interface{}) multistep.Ste
 
 	log.Println(len(allRepos), "repositories retrieved from GitHub")
 	state["repos"] = allRepos
+
+	fmt.Printf("%sdone%s\n", GREEN, CLEAR)
 
 	return multistep.ActionContinue
 }

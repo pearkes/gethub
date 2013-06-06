@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -22,12 +23,19 @@ type AuthorizeResponse struct {
 func (*StepAuthorizeGithub) Run(state map[string]interface{}) multistep.StepAction {
 	log.Println("Begin authorization sequence...")
 
-	fmt.Printf("Please enter the path you would like gethub to store respositories: ")
+	pwd := os.Getenv("PWD")
+	fmt.Printf("Enter the path to store respositories (%s if blank): ", pwd)
+
 	var path string
 	_, err := fmt.Scanf("%s", &path)
 
+	if path == "" {
+		path = pwd
+	}
+
 	// Let the user know what will happen.
-	fmt.Println(`Your username and password will be used once to obtain a unique
+	fmt.Println(`
+Your username and password will be used once to obtain a unique
 authorization token from GitHub's API, which will be stored in
 ~/.gethubconfig.
 `)

@@ -20,6 +20,7 @@ func (*StepUpdateRepositories) Run(state map[string]interface{}) multistep.StepA
 	fetches := []string{}
 	clones := []string{}
 	errors := []string{}
+	ignores := []string{}
 
 	maxConcurrent := 32
 	var sem = make(chan int, maxConcurrent) // Counting semaphore
@@ -59,6 +60,8 @@ func (*StepUpdateRepositories) Run(state map[string]interface{}) multistep.StepA
 				clones = append(clones, repo.Name())
 			case "error":
 				errors = append(errors, repo.Name())
+			case "ignore":
+				ignores = append(ignores, repo.Name())
 			}
 			<-sem // Signal
 			wg.Done()
@@ -81,6 +84,8 @@ func (*StepUpdateRepositories) Run(state map[string]interface{}) multistep.StepA
 	if len(errors) > 0 {
 		mess = append(mess, fmt.Sprintf("%s%d errors%s (%s)", RED, len(errors), CLEAR, strings.Join(errors, ", ")))
 	}
+
+	log.Println("Ignored repositories: ", strings.Join(ignores, ", "))
 
 	fmt.Printf("\n%s\n", strings.Join(mess, ", "))
 	// Do some stuff
