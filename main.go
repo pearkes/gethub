@@ -23,7 +23,7 @@ func main() {
 	arg := flag.Arg(0)
 
 	// Discard logging if debug is turned off.
-	if *debug == true {
+	if *debug == false {
 		log.SetOutput(ioutil.Discard)
 	}
 

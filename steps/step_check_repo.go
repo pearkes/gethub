@@ -15,12 +15,14 @@ func (*StepCheckRepo) Run(state map[string]interface{}) multistep.StepAction {
 	ignoredOwners := state["ignored_owners"].([]string)
 
 	log.Println("Starting check for:", repo.FullName)
+
 	repoPath := path + "/" + repo.FullName
 
 	// Check if the repo is ignored by it's name
 	for _, ignoredName := range ignoredRepos {
 		if ignoredName == repo.Name() {
 			state["repo_state"] = "ignore"
+			return multistep.ActionContinue
 		}
 	}
 
@@ -28,6 +30,7 @@ func (*StepCheckRepo) Run(state map[string]interface{}) multistep.StepAction {
 	for _, ignoredOwner := range ignoredOwners {
 		if ignoredOwner == repo.Owner() {
 			state["repo_state"] = "ignore"
+			return multistep.ActionContinue
 		}
 	}
 
@@ -39,9 +42,11 @@ func (*StepCheckRepo) Run(state map[string]interface{}) multistep.StepAction {
 
 	if staterr != nil || stat.IsDir() != true {
 		state["repo_state"] = "clone"
+		return multistep.ActionContinue
 	} else {
 		// If the directory does exist, we want to run a fetch on it.
 		state["repo_state"] = "fetch"
+		return multistep.ActionContinue
 	}
 
 	return multistep.ActionContinue

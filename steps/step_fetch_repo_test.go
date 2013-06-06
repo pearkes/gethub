@@ -6,9 +6,11 @@ import (
 )
 
 func TestStepFetchRepo(t *testing.T) {
-	env = make(map[string]interface{})
+	env := make(map[string]interface{})
 
-	results := stepFetchRepo.Run(env)
+	step := &StepFetchRepo{}
+
+	results := step.Run(env)
 
 	if results != multistep.ActionContinue {
 		t.Fatal("step did not return ActionContinue")

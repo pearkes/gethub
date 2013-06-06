@@ -6,9 +6,11 @@ import (
 )
 
 func TestStepCloneRepo(t *testing.T) {
-	env = make(map[string]interface{})
+	env := make(map[string]interface{})
 
-	results := stepCloneRepo.Run(env)
+	step := &StepCloneRepo{}
+
+	results := step.Run(env)
 
 	if results != multistep.ActionContinue {
 		t.Fatal("step did not return ActionContinue")

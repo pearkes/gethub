@@ -14,38 +14,32 @@ type StepCheckConfigurationFile struct{}
 // non-exsistance.
 func (*StepCheckConfigurationFile) Run(state map[string]interface{}) multistep.StepAction {
 	log.Println("Checking configuration file...")
-
-	var configPath string
+	configPath := state["config_path"].(string)
 	var path string
 
-	if state["config_path"] != nil {
-		path, _ = state["config_path"].(string)
-	} else {
-		path = ""
-	}
-
 	// Determine if we are dealing with a custom config path
-	if path == "" {
+	if configPath == "" {
 		// Default to the home directory
-		configPath = os.Getenv("HOME") + "/.gethubconfig"
+		path = os.Getenv("HOME") + ".gethubconfig"
 	} else {
 		// They've specified a custom config path
-		log.Println("Environment specified config path", path)
-		configPath = path + "/.gethubconfig"
+		log.Println("Environment specified config path", configPath)
+		path = configPath + ".gethubconfig"
 	}
 
 	// Is the config file even there?
-	_, err := os.Stat(configPath)
+	_, err := os.Stat(path)
 
 	if err != nil {
 		fmt.Println(RED + "It seems as though you haven't set-up gethub. Please run `gethub authorize`" + CLEAR)
 		return multistep.ActionHalt
 	}
 
-	// Read the file and see if all is well
-	_, err2 := config.ReadDefault(configPath)
+	// Read the file and see if all is well with a basic config
+	c, err2 := config.ReadDefault(path)
+	checkPath, _ := c.String("gethub", "path")
 
-	if err2 != nil {
+	if checkPath == "" || err2 != nil {
 		fmt.Println(RED + "Something seems to be wrong with your ~/.gethubconfig file. Please run `gethub authorize`" + CLEAR)
 		return multistep.ActionHalt
 	}
