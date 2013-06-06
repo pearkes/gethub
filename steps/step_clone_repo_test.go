@@ -49,10 +49,6 @@ func TestStepCloneRepo_Not_Exists(t *testing.T) {
 	env := make(map[string]interface{})
 	env["path"] = "tmp"
 
-	originPath := "tmp/pearkes/origin"
-
-	os.MkdirAll(originPath, 0777)
-
 	repo := Repo{FullName: "pearkes/test", SSHUrl: "foobar"}
 	env["repo"] = repo
 	env["repo_state"] = "clone"

@@ -48,11 +48,13 @@ func (*StepCloneRepo) Run(state map[string]interface{}) multistep.StepAction {
 	if cloneerr != nil {
 		log.Println("Error cloning " + repo.FullName)
 		fmt.Printf("%s.%s", RED, CLEAR)
+		state["repo_result"] = "error"
 		return multistep.ActionHalt
 	}
 
 	// Print a success dot
 	fmt.Printf("%s.%s", GREEN, CLEAR)
+	state["repo_result"] = "clone"
 	return multistep.ActionContinue
 }
 

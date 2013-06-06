@@ -12,10 +12,8 @@ type StepUpdateRepositories struct{}
 
 func (*StepUpdateRepositories) Run(state map[string]interface{}) multistep.StepAction {
 	log.Println("Begin repository update sequence...")
-	fmt.Printf("Contacting GitHub... ")
-	repos := state["repos"].([]Repo)
 
-	fmt.Printf("%sdone%s\n", GREEN, CLEAR)
+	repos := state["repos"].([]Repo)
 
 	fmt.Printf("Updating repositories: ")
 
@@ -37,6 +35,14 @@ func (*StepUpdateRepositories) Run(state map[string]interface{}) multistep.StepA
 			state["repo"] = repo
 			runner := &multistep.BasicRunner{Steps: steps}
 			runner.Run(state)
+			switch state["repo_result"].(string) {
+			case "fetch":
+				fetches = append(fetches, repo.Name())
+			case "clone":
+				clones = append(clones, repo.Name())
+			case "error":
+				errors = append(errors, repo.Name())
+			}
 			wg.Done()
 		}(repo)
 	}

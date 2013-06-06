@@ -42,11 +42,13 @@ func (*StepFetchRepo) Run(state map[string]interface{}) multistep.StepAction {
 	if err != nil {
 		log.Println("Error fetching " + repo.FullName)
 		fmt.Printf("%s.%s", RED, CLEAR)
+		state["repo_result"] = "error"
 		return multistep.ActionHalt
 	}
 
 	// Print a success dot
 	fmt.Printf("%s.%s", GREEN, CLEAR)
+	state["repo_result"] = "fetch"
 	return multistep.ActionContinue
 }
 
