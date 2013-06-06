@@ -32,6 +32,7 @@ func (*StepCloneRepo) Run(state map[string]interface{}) multistep.StepAction {
 	if mkdirerr != nil {
 		log.Println("Error creating directory for " + repo.FullName)
 		fmt.Printf("%s.%s", RED, CLEAR)
+		state["repo_result"] = "error"
 		return multistep.ActionHalt
 	}
 

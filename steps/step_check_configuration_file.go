@@ -20,11 +20,11 @@ func (*StepCheckConfigurationFile) Run(state map[string]interface{}) multistep.S
 	// Determine if we are dealing with a custom config path
 	if configPath == "" {
 		// Default to the home directory
-		path = os.Getenv("HOME") + ".gethubconfig"
+		path = os.Getenv("HOME") + "/.gethubconfig"
 	} else {
 		// They've specified a custom config path
 		log.Println("Environment specified config path", configPath)
-		path = configPath + ".gethubconfig"
+		path = configPath + "/.gethubconfig"
 	}
 
 	// Is the config file even there?

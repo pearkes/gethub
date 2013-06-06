@@ -1,7 +1,6 @@
 package steps
 
 import (
-	"bytes"
 	"fmt"
 	"github.com/mitchellh/multistep"
 	"log"
@@ -30,10 +29,6 @@ func (*StepFetchRepo) Run(state map[string]interface{}) multistep.StepAction {
 
 	// Set the current directory as the path to the repository
 	cmd.Dir = repoPath
-
-	// Grab stdout so we can log it if an error occurs
-	var out bytes.Buffer
-	cmd.Stdout = &out
 
 	// Execute the clone
 	err := cmd.Run()

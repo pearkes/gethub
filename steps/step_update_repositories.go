@@ -21,21 +21,38 @@ func (*StepUpdateRepositories) Run(state map[string]interface{}) multistep.StepA
 	clones := []string{}
 	errors := []string{}
 
-	steps := []multistep.Step{
-		&StepCheckRepo{},
-		&StepFetchRepo{},
-		&StepCloneRepo{},
-	}
+	maxConcurrent := 32
+	var sem = make(chan int, maxConcurrent) // Counting semaphore
 
 	// Asynchronously update each repository
 	var wg sync.WaitGroup
 	for _, repo := range repos {
 		wg.Add(1)
+
 		go func(repo Repo) {
-			state["repo"] = repo
+			sem <- 1 // Wait
+
+			// New state for each repo update runner
+			cState := make(map[string]interface{})
+
+			steps := []multistep.Step{
+				&StepCheckRepo{},
+				&StepFetchRepo{},
+				&StepCloneRepo{},
+			}
+
+			// Copy parent state values over.
+			for k, v := range state {
+				cState[k] = v
+			}
+
+			cState["repo"] = repo
+
 			runner := &multistep.BasicRunner{Steps: steps}
-			runner.Run(state)
-			switch state["repo_result"].(string) {
+
+			runner.Run(cState)
+
+			switch cState["repo_result"].(string) {
 			case "fetch":
 				fetches = append(fetches, repo.Name())
 			case "clone":
@@ -43,6 +60,7 @@ func (*StepUpdateRepositories) Run(state map[string]interface{}) multistep.StepA
 			case "error":
 				errors = append(errors, repo.Name())
 			}
+			<-sem // Signal
 			wg.Done()
 		}(repo)
 	}
@@ -61,7 +79,7 @@ func (*StepUpdateRepositories) Run(state map[string]interface{}) multistep.StepA
 	}
 
 	if len(errors) > 0 {
-		mess = append(mess, fmt.Sprintf("%s%d errors%s", RED, len(errors), CLEAR))
+		mess = append(mess, fmt.Sprintf("%s%d errors%s (%s)", RED, len(errors), CLEAR, strings.Join(errors, ", ")))
 	}
 
 	fmt.Printf("\n%s\n", strings.Join(mess, ", "))

@@ -60,6 +60,8 @@ func updateRunner(state map[string]interface{}) {
 		&steps.StepInjectConfiguration{},
 		&steps.StepCheckPath{},
 		&steps.StepCheckConfiguration{},
+		&steps.StepRetrieveRepositories{},
+		&steps.StepUpdateRepositories{},
 	}
 
 	runner := &multistep.BasicRunner{Steps: steps}
