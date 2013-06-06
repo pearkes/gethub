@@ -10,18 +10,27 @@ import (
 func TestStepCloneRepo(t *testing.T) {
 	env := make(map[string]interface{})
 	env["path"] = "tmp"
-	os.MkdirAll("tmp/pearkes/origin", 0777)
+
+	originPath := "tmp/pearkes/origin"
+
+	os.MkdirAll(originPath, 0777)
 
 	// Create a fake repository to clone from
-	cmdInit := exec.Command("git", "init", "tmp/pearkes/origin")
+	cmdInit := exec.Command("git", "init", originPath)
+
 	// Commit to the repoistory to avoid warnings
-	os.Create("tmp/pearkes/origin/test")
-	cmdCommit := exec.Command("git", "commit", "-a", "-m", "'initial commit'")
+	os.Create(originPath + "/test")
+	cmdAdd := exec.Command("git", "add", "test")
+	cmdAdd.Dir = originPath
+
+	cmdCommit := exec.Command("git", "commit", "-m", "initial commit")
+	cmdCommit.Dir = originPath
 
 	cmdInit.Run()
+	cmdAdd.Run()
 	cmdCommit.Run()
 
-	repo := Repo{FullName: "pearkes/test", SSHUrl: "tmp/pearkes/origin"}
+	repo := Repo{FullName: "pearkes/test", SSHUrl: "../origin"}
 	env["repo"] = repo
 	env["repo_state"] = "clone"
 
