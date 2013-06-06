@@ -30,4 +30,8 @@ To install the development binary on your system:
 
     $ go install
 
+Or run the tests:
+
+    $ go test github.com/pearkes/gethub/steps -v
+
 If you need help with your environment, feel free to open an issue.

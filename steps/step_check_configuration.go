@@ -9,7 +9,7 @@ type StepCheckConfiguration struct{}
 
 func (*StepCheckConfiguration) Run(state map[string]interface{}) multistep.StepAction {
 	log.Println("Checking configuration...")
-	// Do some stuff
+	// TODO Check the configuration.
 	return multistep.ActionContinue
 }
 

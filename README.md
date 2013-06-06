@@ -1,6 +1,6 @@
 # gethub
 
-![]()
+![](https://f.cloud.github.com/assets/846194/618342/7f7cc24a-ceb2-11e2-9bdb-0eb19f0dd552.gif)
 
 ## Overview
 [![Build Status](https://travis-ci.org/pearkes/get.png?branch=master)](https://travis-ci.org/pearkes/get)
@@ -16,18 +16,18 @@ Please see the [issue](https://github.com/pearkes/get/issues/2).
 
 ## Getting Started
 
-The first time you run `gethub`, you pass it a path.
+    $ gethub authorize
 
-    $ gethub .
+This asks you where you want to clone your repositories as well
+as creating an OAuth token for future GitHub requests.
 
-After authorizing with GitHub, all of your repositories will
-be cloned into this path.
-
-The next time you run a `gethub`, all of your new repositories will be cloned
-and your existing repositories will be fetched.
+The next time you run a `gethub`, all of your new repositories
+will be cloned and your existing repositories will be fetched.
 
 It's useful if you have a lot of repos and may not have an
-internet connection. Never leave home without a `get`.™
+internet connection.
+
+Never leave home without running `gethub`.
 
 ## Directory Structure
 
@@ -54,13 +54,10 @@ to who the owner is on GitHub.
     $ gethub
 
 1. Checks to see if the necessary requirements for `get` exist,
-like it's `~/.getconfig` file.
-2. If it needs to, asks for your credentials to talk to GitHub, and
-subsequently creates a `~/.getconfig` file for future use.
+like it's `~/.gethubconfig` file.
+2. Makes sure the path to your repositories looks ok.
 3. Clones any repositories that are missing.
 4. Runs `git fetch` in repositories that exist.
-
-*Performance note:* Clones and fetches are executed in parallell
 
 ## Configuration
 
