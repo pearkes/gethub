@@ -53,7 +53,7 @@ to who the owner is on GitHub.
 
     $ gethub
 
-1. Checks to see if the necessary requirements for `get` exist,
+1. Checks to see if the necessary requirements for `gethub` exist,
 like it's `~/.gethubconfig` file.
 2. Makes sure the path to your repositories looks ok.
 3. Clones any repositories that are missing.
@@ -64,7 +64,7 @@ like it's `~/.gethubconfig` file.
 Configuration is stored in a `.gethubconfig` file in your home directory.
 (`~/.gethubconfig`)
 
-### Ignored Repositories or Organizations
+### Ignored Repositories
 
 Sometimes you don't want to retrieve that gigantic project that
 someone committed `.mov` files to.
