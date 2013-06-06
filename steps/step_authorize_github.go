@@ -101,7 +101,7 @@ authorization token from GitHub's API, which will be stored in
 		fmt.Println(string(body))
 		return multistep.ActionHalt
 	} else {
-		fmt.Println(GREEN + "Succesfully authenticated with Github." + CLEAR)
+		fmt.Println(GREEN + "Succesfully authenticated with Github. Try running `gethub`." + CLEAR)
 	}
 
 	log.Println(string(body))
