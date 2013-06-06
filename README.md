@@ -10,9 +10,9 @@ remotes up to date.
 
 ## Installation
 
-Please see the [issue](https://github.com/pearkes/get/issues/2).
+If you have [Go](http://golang.org/) installed:
 
-*This is temporary until binaries are properly compiled for common platforms.*
+    go install github.com/pearkes/gethub
 
 ## Getting Started
 
