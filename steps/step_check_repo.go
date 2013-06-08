@@ -51,7 +51,6 @@ func (*StepCheckRepo) Run(state map[string]interface{}) multistep.StepAction {
 		return multistep.ActionContinue
 	}
 
-	return multistep.ActionContinue
 }
 
 func (*StepCheckRepo) Cleanup(map[string]interface{}) {}

@@ -16,7 +16,7 @@ import (
 type StepAuthorizeGithub struct{}
 
 type AuthorizeResponse struct {
-	Token string `json:token`
+	Token string `json:"token"`
 }
 
 // The authorization sequence, required for someone without a ~/.getconfig
