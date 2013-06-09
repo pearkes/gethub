@@ -1,16 +1,34 @@
 # gethub
 
-![](https://f.cloud.github.com/assets/846194/618342/7f7cc24a-ceb2-11e2-9bdb-0eb19f0dd552.gif)
+![](https://f.cloud.github.com/assets/846194/628834/c1bd5414-d0fe-11e2-8b4e-f8877ea58b59.gif)
 
 ## Overview
-[![Build Status](https://travis-ci.org/pearkes/get.png?branch=master)](https://travis-ci.org/pearkes/get)
+[![Build Status](https://travis-ci.org/pearkes/gethub.png?branch=master)](https://travis-ci.org/pearkes/gethub)
 
 `gethub` helps you keep all of your git repositories that have GitHub
 remotes up to date.
 
 ## Installation
 
-If you have [Go](http://golang.org/) installed:
+You can download a `zip`, `deb` or `exe`, depending on your platform.
+
+- darwin/386: [[binary](http://gethub.jack.ly/0.1.1/darwin_386/gethub_0.1.1_darwin_386.zip)]
+- darwin/amd64: [[binary](http://gethub.jack.ly/0.1.1/darwin_amd64/gethub_0.1.1_darwin_amd64.zip)]
+- linux/386: [[deb](http://gethub.jack.ly/0.1.1/linux_386/gethub_0.1.1_i386.deb)] [[tar.gz](http://gethub.jack.ly/0.1.1/linux_386/gethub_0.1.1_linux_386.tar.gz)]
+- linux/amd64: [[deb](http://gethub.jack.ly/0.1.1/linux_amd64/gethub_0.1.1_amd64.deb)] [[tar.gz](http://gethub.jack.ly/0.1.1/linux_amd64/gethub_0.1.1_linux_amd64.tar.gz)]
+- linux/arm: [[deb](http://gethub.jack.ly/0.1.1/linux_arm/gethub_0.1.1_armel.deb)] [[tar.gz](http://gethub.jack.ly/0.1.1/linux_arm/gethub_0.1.1_linux_arm.tar.gz)]
+- windows/386: [[exe](http://gethub.jack.ly/0.1.1/windows_386/gethub_0.1.1_windows_386.zip)]
+- windows/amd64: [[exe](http://gethub.jack.ly/0.1.1/windows_amd64/gethub_0.1.1_windows_amd64.zip)]
+
+To determine your platform:
+
+    uname -sm
+
+On Darwin, you can copy the binary to your bin:
+
+    cp ~/path/to/gethub /usr/local/bin/
+
+Or, if you have [Go](http://golang.org/) installed:
 
     go install github.com/pearkes/gethub
 
