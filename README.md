@@ -1,40 +1,58 @@
-# get
+# gethub
 
-![](https://f.cloud.github.com/assets/846194/491605/3c2635ee-ba44-11e2-9d04-01b3922aec8a.gif)
+![](https://f.cloud.github.com/assets/846194/628834/c1bd5414-d0fe-11e2-8b4e-f8877ea58b59.gif)
 
 ## Overview
-[![Build Status](https://travis-ci.org/pearkes/get.png?branch=master)](https://travis-ci.org/pearkes/get)
+[![Build Status](https://api.travis-ci.org/pearkes/get.png?branch=master)](https://travis-ci.org/pearkes/gethub)
 
-`get` helps you keep all of your git repositories that have GitHub
+`gethub` helps you keep all of your git repositories that have GitHub
 remotes up to date.
 
 ## Installation
 
-Please see the [issue](https://github.com/pearkes/get/issues/2).
+You can download a binary, `deb` or `exe`, depending on your platform.
 
-*This is temporary until binaries are properly compiled for common platforms.*
+- darwin/386: [[binary](http://gethub.jack.ly/0.1.1/darwin_386/gethub_0.1.1_darwin_386.zip)]
+- darwin/amd64: [[binary](http://gethub.jack.ly/0.1.1/darwin_amd64/gethub_0.1.1_darwin_amd64.zip)]
+- linux/386: [[deb](http://gethub.jack.ly/0.1.1/linux_386/gethub_0.1.1_i386.deb)] [[binary](http://gethub.jack.ly/0.1.1/linux_386/gethub_0.1.1_linux_386.tar.gz)]
+- linux/amd64: [[deb](http://gethub.jack.ly/0.1.1/linux_amd64/gethub_0.1.1_amd64.deb)] [[binary](http://gethub.jack.ly/0.1.1/linux_amd64/gethub_0.1.1_linux_amd64.tar.gz)]
+- linux/arm: [[deb](http://gethub.jack.ly/0.1.1/linux_arm/gethub_0.1.1_armel.deb)] [[binary](http://gethub.jack.ly/0.1.1/linux_arm/gethub_0.1.1_linux_arm.tar.gz)]
+- windows/386: [[exe](http://gethub.jack.ly/0.1.1/windows_386/gethub_0.1.1_windows_386.zip)]
+- windows/amd64: [[exe](http://gethub.jack.ly/0.1.1/windows_amd64/gethub_0.1.1_windows_amd64.zip)]
+
+To determine your platform:
+
+    uname -sm
+
+On Darwin, you can copy the binary to your bin:
+
+    cp ~/path/to/gethub /usr/local/bin/
+
+Or, if you have [Go](http://golang.org/) installed:
+
+    go install github.com/pearkes/gethub
 
 ## Getting Started
 
-The first time you run `get`, you pass it a path.
+    $ gethub authorize
 
-    $ get ~/code
+This asks you where you want to clone your repositories as well
+as creating an OAuth token for future GitHub requests.
 
-After authorizing with GitHub, all of your repositories will
-be cloned into this path.
-
-The next time you run a `get`, all of your new repositories will be cloned
-and your existing repositories will be fetched.
+The next time you run a `gethub`, all of your new repositories
+will be cloned and your existing repositories will be fetched.
 
 It's useful if you have a lot of repos and may not have an
-internet connection. Never leave home without a `get`.™
+internet connection.
+
+Never leave home without running `gethub`.
 
 ## Directory Structure
 
 It's opinionated about how you organize your repositories.
 
     ├── pearkes
-    │   ├── get
+    │   ├── gethub
     │   ├── tugboat
     │   └── jack.ly
     ├── mitchellh
@@ -51,23 +69,20 @@ to who the owner is on GitHub.
 
 ## Behind the Curtain
 
-    $ get
+    $ gethub
 
-1. Checks to see if the necessary requirements for `get` exist,
-like it's `~/.getconfig` file.
-2. If it needs to, asks for your credentials to talk to GitHub, and
-subsequently creates a `~/.getconfig` file for future use.
+1. Checks to see if the necessary requirements for `gethub` exist,
+like it's `~/.gethubconfig` file.
+2. Makes sure the path to your repositories looks ok.
 3. Clones any repositories that are missing.
 4. Runs `git fetch` in repositories that exist.
 
-*Performance note:* Clones and fetches are executed in parallell
-
 ## Configuration
 
-Configuration is stored in a `.getconfig` file in your home directory.
-(`~/.getconfig`)
+Configuration is stored in a `.gethubconfig` file in your home directory.
+(`~/.gethubconfig`)
 
-### Ignored Repositories or Organizations
+### Ignored Repositories
 
 Sometimes you don't want to retrieve that gigantic project that
 someone committed `.mov` files to.

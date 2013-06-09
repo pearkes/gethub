@@ -6,7 +6,7 @@ import (
 )
 
 func usage() {
-	fmt.Println(`Usage: get [-v] [-h] [-d] [<path>]
+	fmt.Println(`Usage: gethub [-v] [-h] [-d] [<path>]
 
     -v, --version                   Prints the version and exits.
     -h, --help                      Prints the usage information.
@@ -16,9 +16,9 @@ Arguments:
 
     path                            The path to place or update the
                                     repostories. Defaults to the path
-                                    in ~/.getconfig. This is required
-                                    the first time you run get.
+                                    in ~/.gethubconfig. This is required
+                                    the first time you run gethub.
 
-To learn more or to contribute, please see github.com/pearkes/get`)
+To learn more or to contribute, please see github.com/pearkes/gethub`)
 	os.Exit(1)
 }
