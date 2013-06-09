@@ -1,6 +1,6 @@
 # gethub
 
-![](https://f.cloud.github.com/assets/846194/628834/c1bd5414-d0fe-11e2-8b4e-f8877ea58b59.gif)
+![](https://f.cloud.github.com/assets/846194/628861/8090cb46-d104-11e2-84eb-7878aa9057d0.gif)
 
 ## Overview
 [![Build Status](https://api.travis-ci.org/pearkes/get.png?branch=master)](https://travis-ci.org/pearkes/gethub)
