@@ -35,3 +35,9 @@ Or run the tests:
     $ go test github.com/pearkes/gethub/steps -v
 
 If you need help with your environment, feel free to open an issue.
+
+
+## Building Releases
+
+    goxc -pv 0.1.1 -os=linux,arm,windows,darwin
+    s3cmd put --recursive  ~/path/to/bin/gethub-xc/VERSION s3://gethub.jack.ly
