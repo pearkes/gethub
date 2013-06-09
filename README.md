@@ -10,7 +10,7 @@ remotes up to date.
 
 ## Installation
 
-You can download a `zip`, `deb` or `exe`, depending on your platform.
+You can download a binary, `deb` or `exe`, depending on your platform.
 
 - darwin/386: [[binary](http://gethub.jack.ly/0.1.1/darwin_386/gethub_0.1.1_darwin_386.zip)]
 - darwin/amd64: [[binary](http://gethub.jack.ly/0.1.1/darwin_amd64/gethub_0.1.1_darwin_amd64.zip)]
