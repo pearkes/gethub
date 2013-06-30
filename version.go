@@ -1,5 +1,5 @@
 package main
 
 func versionString() string {
-	return "gethub 0.0.2"
+	return "gethub 0.1.2"
 }
