@@ -12,13 +12,13 @@ remotes up to date.
 
 You can download a binary, `deb` or `exe`, depending on your platform.
 
-- darwin/386: [[binary](http://gethub.jack.ly/0.1.1/darwin_386/gethub_0.1.1_darwin_386.zip)]
-- darwin/amd64: [[binary](http://gethub.jack.ly/0.1.1/darwin_amd64/gethub_0.1.1_darwin_amd64.zip)]
-- linux/386: [[deb](http://gethub.jack.ly/0.1.1/linux_386/gethub_0.1.1_i386.deb)] [[binary](http://gethub.jack.ly/0.1.1/linux_386/gethub_0.1.1_linux_386.tar.gz)]
-- linux/amd64: [[deb](http://gethub.jack.ly/0.1.1/linux_amd64/gethub_0.1.1_amd64.deb)] [[binary](http://gethub.jack.ly/0.1.1/linux_amd64/gethub_0.1.1_linux_amd64.tar.gz)]
-- linux/arm: [[deb](http://gethub.jack.ly/0.1.1/linux_arm/gethub_0.1.1_armel.deb)] [[binary](http://gethub.jack.ly/0.1.1/linux_arm/gethub_0.1.1_linux_arm.tar.gz)]
-- windows/386: [[exe](http://gethub.jack.ly/0.1.1/windows_386/gethub_0.1.1_windows_386.zip)]
-- windows/amd64: [[exe](http://gethub.jack.ly/0.1.1/windows_amd64/gethub_0.1.1_windows_amd64.zip)]
+- darwin/386: [[binary](http://gethub.jack.ly/0.1.2/darwin_386/gethub_0.1.2_darwin_386.zip)]
+- darwin/amd64: [[binary](http://gethub.jack.ly/0.1.2/darwin_amd64/gethub_0.1.2_darwin_amd64.zip)]
+- linux/386: [[deb](http://gethub.jack.ly/0.1.2/linux_386/gethub_0.1.2_i386.deb)] [[binary](http://gethub.jack.ly/0.1.2/linux_386/gethub_0.1.2_linux_386.tar.gz)]
+- linux/amd64: [[deb](http://gethub.jack.ly/0.1.2/linux_amd64/gethub_0.1.2_amd64.deb)] [[binary](http://gethub.jack.ly/0.1.2/linux_amd64/gethub_0.1.2_linux_amd64.tar.gz)]
+- linux/arm: [[deb](http://gethub.jack.ly/0.1.2/linux_arm/gethub_0.1.2_armel.deb)] [[binary](http://gethub.jack.ly/0.1.2/linux_arm/gethub_0.1.2_linux_arm.tar.gz)]
+- windows/386: [[exe](http://gethub.jack.ly/0.1.2/windows_386/gethub_0.1.2_windows_386.zip)]
+- windows/amd64: [[exe](http://gethub.jack.ly/0.1.2/windows_amd64/gethub_0.1.2_windows_amd64.zip)]
 
 To determine your platform:
 
