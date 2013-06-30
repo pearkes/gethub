@@ -43,7 +43,7 @@ func (*StepRetrieveRepositories) Run(state map[string]interface{}) multistep.Ste
 	fmt.Printf("Contacting GitHub... ")
 
 	// Retrieve Organizations
-	body := apiRequest(token, "/user/orgs")
+	body := apiRequest(token, "/user/orgs?access_token=")
 	var orgs []Org
 	err := json.Unmarshal(body, &orgs)
 	if err != nil {
@@ -53,11 +53,11 @@ func (*StepRetrieveRepositories) Run(state map[string]interface{}) multistep.Ste
 
 	// Build the endpoint for each organization
 	for _, org := range orgs {
-		endpoints = append(endpoints, "/orgs/"+org.Name+"/repos?type=all&per_page=100")
+		endpoints = append(endpoints, "/orgs/"+org.Name+"/repos?type=all&per_page=100&access_token=")
 	}
 
 	// Add the user's repos to the endpoint
-	endpoints = append(endpoints, "/user/repos?type=all&per_page=100")
+	endpoints = append(endpoints, "/user/repos?type=all&per_page=100&access_token=")
 
 	var wg sync.WaitGroup
 	// Asynchronously retrieve all repositories from GitHub
@@ -94,10 +94,10 @@ func (*StepRetrieveRepositories) Cleanup(map[string]interface{}) {}
 func apiRequest(token string, endpoint string) []byte {
 	client := &http.Client{}
 
-	req, err := http.NewRequest("GET",
-		"https://api.github.com"+endpoint, nil)
+	url := fmt.Sprintf("https://api.github.com%s%s", endpoint, token)
 
-	req.SetBasicAuth(token, "")
+	req, err := http.NewRequest("GET", url,
+		nil)
 
 	resp, err := client.Do(req)
 
