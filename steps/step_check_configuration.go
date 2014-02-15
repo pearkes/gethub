@@ -1,16 +1,17 @@
 package steps
 
 import (
-	"github.com/mitchellh/multistep"
 	"log"
+
+	"github.com/mitchellh/multistep"
 )
 
 type StepCheckConfiguration struct{}
 
-func (*StepCheckConfiguration) Run(state map[string]interface{}) multistep.StepAction {
+func (*StepCheckConfiguration) Run(state multistep.StateBag) multistep.StepAction {
 	log.Println("Checking configuration...")
 	// TODO Check the configuration.
 	return multistep.ActionContinue
 }
 
-func (*StepCheckConfiguration) Cleanup(map[string]interface{}) {}
+func (*StepCheckConfiguration) Cleanup(multistep.StateBag) {}

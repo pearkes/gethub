@@ -2,24 +2,25 @@ package steps
 
 import (
 	"fmt"
-	"github.com/mitchellh/multistep"
 	"log"
 	"os"
 	"os/exec"
+
+	"github.com/mitchellh/multistep"
 )
 
 type StepCloneRepo struct{}
 
-func (*StepCloneRepo) Run(state map[string]interface{}) multistep.StepAction {
-	repoState := state["repo_state"].(string)
+func (*StepCloneRepo) Run(state multistep.StateBag) multistep.StepAction {
+	repoState := state.Get("repo_state").(string)
 
 	if repoState != "clone" {
 		log.Println("Skipping clone, repo state is " + repoState)
 		return multistep.ActionContinue
 	}
 
-	repo := state["repo"].(Repo)
-	path := state["path"].(string)
+	repo := state.Get("repo").(Repo)
+	path := state.Get("path").(string)
 
 	repoPath := path + "/" + repo.FullName
 
@@ -32,7 +33,7 @@ func (*StepCloneRepo) Run(state map[string]interface{}) multistep.StepAction {
 	if mkdirerr != nil {
 		log.Println("Error creating directory for " + repo.FullName)
 		fmt.Printf("%s.%s", RED, CLEAR)
-		state["repo_result"] = "error"
+		state.Put("repo_result", "error")
 		return multistep.ActionHalt
 	}
 
@@ -49,14 +50,14 @@ func (*StepCloneRepo) Run(state map[string]interface{}) multistep.StepAction {
 	if cloneerr != nil {
 		log.Println("Error cloning " + repo.FullName)
 		fmt.Printf("%s.%s", RED, CLEAR)
-		state["repo_result"] = "error"
+		state.Put("repo_result", "error")
 		return multistep.ActionHalt
 	}
 
 	// Print a success dot
 	fmt.Printf("%s.%s", GREEN, CLEAR)
-	state["repo_result"] = "clone"
+	state.Put("repo_result", "clone")
 	return multistep.ActionContinue
 }
 
-func (*StepCloneRepo) Cleanup(map[string]interface{}) {}
+func (*StepCloneRepo) Cleanup(multistep.StateBag) {}

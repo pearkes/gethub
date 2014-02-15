@@ -2,17 +2,18 @@ package steps
 
 import (
 	"fmt"
-	"github.com/mitchellh/multistep"
 	"log"
 	"os"
+
+	"github.com/mitchellh/multistep"
 )
 
 type StepCheckPath struct{}
 
-func (*StepCheckPath) Run(state map[string]interface{}) multistep.StepAction {
+func (*StepCheckPath) Run(state multistep.StateBag) multistep.StepAction {
 	log.Println("Checking path...")
 
-	repoPath := state["path"].(string)
+	repoPath := state.Get("path").(string)
 
 	stat, err := os.Stat(repoPath)
 
@@ -25,4 +26,4 @@ func (*StepCheckPath) Run(state map[string]interface{}) multistep.StepAction {
 	return multistep.ActionContinue
 }
 
-func (*StepCheckPath) Cleanup(map[string]interface{}) {}
+func (*StepCheckPath) Cleanup(multistep.StateBag) {}

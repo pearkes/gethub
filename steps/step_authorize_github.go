@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/howeyc/gopass"
-	"github.com/mitchellh/multistep"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/howeyc/gopass"
+	"github.com/mitchellh/multistep"
 )
 
 type StepAuthorizeGithub struct{}
@@ -20,7 +21,7 @@ type AuthorizeResponse struct {
 }
 
 // The authorization sequence, required for someone without a ~/.getconfig
-func (*StepAuthorizeGithub) Run(state map[string]interface{}) multistep.StepAction {
+func (*StepAuthorizeGithub) Run(state multistep.StateBag) multistep.StepAction {
 	log.Println("Begin authorization sequence...")
 
 	pwd := os.Getenv("PWD")
@@ -107,13 +108,13 @@ authorization token from GitHub's API, which will be stored in
 	log.Println(string(body))
 
 	// Set the discovered credentials into the bag of state
-	state["token"] = auth.Token
-	state["username"] = username
-	state["path"] = path
+	state.Put("token", auth.Token)
+	state.Put("username", username)
+	state.Put("path", path)
 
 	log.Println(username)
 
 	return multistep.ActionContinue
 }
 
-func (*StepAuthorizeGithub) Cleanup(map[string]interface{}) {}
+func (*StepAuthorizeGithub) Cleanup(multistep.StateBag) {}

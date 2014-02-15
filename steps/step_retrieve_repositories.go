@@ -3,12 +3,13 @@ package steps
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/mitchellh/multistep"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
 	"sync"
+
+	"github.com/mitchellh/multistep"
 )
 
 // type Org represents an organization
@@ -33,12 +34,12 @@ func (r Repo) Name() string {
 
 type StepRetrieveRepositories struct{}
 
-func (*StepRetrieveRepositories) Run(state map[string]interface{}) multistep.StepAction {
+func (*StepRetrieveRepositories) Run(state multistep.StateBag) multistep.StepAction {
 	log.Println("Retrieving remote repositories...")
 	var allRepos []Repo
 	var endpoints []string
 
-	token := state["token"].(string)
+	token := state.Get("token").(string)
 
 	fmt.Printf("Contacting GitHub... ")
 
@@ -82,14 +83,14 @@ func (*StepRetrieveRepositories) Run(state map[string]interface{}) multistep.Ste
 	wg.Wait()
 
 	log.Println(len(allRepos), "repositories retrieved from GitHub")
-	state["repos"] = allRepos
+	state.Put("repos", allRepos)
 
 	fmt.Printf("%sdone%s\n", GREEN, CLEAR)
 
 	return multistep.ActionContinue
 }
 
-func (*StepRetrieveRepositories) Cleanup(map[string]interface{}) {}
+func (*StepRetrieveRepositories) Cleanup(multistep.StateBag) {}
 
 func apiRequest(token string, endpoint string) []byte {
 	client := &http.Client{}

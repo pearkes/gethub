@@ -3,11 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/mitchellh/multistep"
-	"github.com/pearkes/gethub/steps"
 	"io/ioutil"
 	"log"
 	"os"
+
+	"github.com/mitchellh/multistep"
+	"github.com/pearkes/gethub/steps"
 )
 
 func main() {
@@ -36,9 +37,9 @@ func main() {
 	// Log enabled debugging
 	log.Println("Debugging enabled for", versionString())
 
-	state := make(map[string]interface{})
-	state["debug"] = *debug
-	state["config_path"] = os.Getenv("GETCONFIG_PATH")
+	state := new(multistep.BasicStateBag)
+	state.Put("debug", *debug)
+	state.Put("config_path", os.Getenv("GETCONFIG_PATH"))
 
 	if arg == "authorize" {
 		authorizeRunner(state)
@@ -53,7 +54,7 @@ func main() {
 
 // Builds the steps and kicks off the runner for updating
 // repositories.
-func updateRunner(state map[string]interface{}) {
+func updateRunner(state multistep.StateBag) {
 
 	steps := []multistep.Step{
 		&steps.StepCheckConfigurationFile{},
@@ -70,7 +71,7 @@ func updateRunner(state map[string]interface{}) {
 
 // Builds the steps and kicks off the runner for authorizing
 // and creating configuration.
-func authorizeRunner(state map[string]interface{}) {
+func authorizeRunner(state multistep.StateBag) {
 
 	steps := []multistep.Step{
 		&steps.StepAuthorizeGithub{},
