@@ -1,19 +1,20 @@
 package steps
 
 import (
-	"github.com/mitchellh/multistep"
-	"github.com/pearkes/goconfig/config"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/mitchellh/multistep"
+	"github.com/pearkes/goconfig/config"
 )
 
 type StepInjectConfiguration struct{}
 
-func (*StepInjectConfiguration) Run(state map[string]interface{}) multistep.StepAction {
+func (*StepInjectConfiguration) Run(state multistep.StateBag) multistep.StepAction {
 	log.Println("Injecting configuration...")
 
-	configPath := state["config_path"].(string)
+	configPath := state.Get("config_path").(string)
 
 	var path string
 
@@ -46,14 +47,17 @@ func (*StepInjectConfiguration) Run(state map[string]interface{}) multistep.Step
 		owners = append(owners, strings.TrimSpace(ignoredOwner))
 	}
 
-	state["path"], _ = c.String("gethub", "path")
-	state["token"], _ = c.String("github", "token")
-	state["username"], _ = c.String("github", "username")
+	gpath, _ := c.String("gethub", "path")
+	state.Put("path", gpath)
+	token, _ := c.String("github", "token")
+	state.Put("token", token)
+	username, _ := c.String("github", "username")
+	state.Put("username", username)
 
-	state["ignored_repos"] = repos
-	state["ignored_owners"] = owners
+	state.Put("ignored_repos", repos)
+	state.Put("ignored_owners", owners)
 
 	return multistep.ActionContinue
 }
 
-func (*StepInjectConfiguration) Cleanup(map[string]interface{}) {}
+func (*StepInjectConfiguration) Cleanup(multistep.StateBag) {}

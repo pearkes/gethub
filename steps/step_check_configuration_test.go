@@ -1,13 +1,14 @@
 package steps
 
 import (
-	"github.com/mitchellh/multistep"
 	"testing"
+
+	"github.com/mitchellh/multistep"
 )
 
 func TestStepCheckConfiguration(t *testing.T) {
 
-	env := make(map[string]interface{})
+	env := new(multistep.BasicStateBag)
 
 	step := &StepCheckConfiguration{}
 

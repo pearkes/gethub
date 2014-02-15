@@ -2,18 +2,19 @@ package steps
 
 import (
 	"fmt"
-	"github.com/mitchellh/multistep"
 	"log"
 	"strings"
 	"sync"
+
+	"github.com/mitchellh/multistep"
 )
 
 type StepUpdateRepositories struct{}
 
-func (*StepUpdateRepositories) Run(state map[string]interface{}) multistep.StepAction {
+func (*StepUpdateRepositories) Run(state multistep.StateBag) multistep.StepAction {
 	log.Println("Begin repository update sequence...")
 
-	repos := state["repos"].([]Repo)
+	repos := state.Get("repos").([]Repo)
 
 	fmt.Printf("Updating repositories: ")
 
@@ -34,7 +35,7 @@ func (*StepUpdateRepositories) Run(state map[string]interface{}) multistep.StepA
 			sem <- 1 // Wait
 
 			// New state for each repo update runner
-			cState := make(map[string]interface{})
+			cState := new(multistep.BasicStateBag)
 
 			steps := []multistep.Step{
 				&StepCheckRepo{},
@@ -43,17 +44,19 @@ func (*StepUpdateRepositories) Run(state map[string]interface{}) multistep.StepA
 			}
 
 			// Copy parent state values over.
-			for k, v := range state {
-				cState[k] = v
-			}
+			cState.Put("ignored_repos", state.Get("ignored_repos"))
+			cState.Put("ignored_owners", state.Get("ignored_owners"))
+			cState.Put("repo_state", state.Get("repo_state"))
+			cState.Put("repo_result", state.Get("repo_result"))
+			cState.Put("path", state.Get("path"))
 
-			cState["repo"] = repo
+			cState.Put("repo", repo)
 
 			runner := &multistep.BasicRunner{Steps: steps}
 
 			runner.Run(cState)
 
-			switch cState["repo_result"].(string) {
+			switch cState.Get("repo_result").(string) {
 			case "fetch":
 				fetches = append(fetches, repo.Name())
 			case "clone":
@@ -92,4 +95,4 @@ func (*StepUpdateRepositories) Run(state map[string]interface{}) multistep.StepA
 	return multistep.ActionContinue
 }
 
-func (*StepUpdateRepositories) Cleanup(map[string]interface{}) {}
+func (*StepUpdateRepositories) Cleanup(multistep.StateBag) {}

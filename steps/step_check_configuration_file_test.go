@@ -1,16 +1,17 @@
 package steps
 
 import (
-	"github.com/mitchellh/multistep"
 	"os"
 	"testing"
+
+	"github.com/mitchellh/multistep"
 )
 
 func TestStepCheckConfigurationFile_No_Config(t *testing.T) {
-	env := make(map[string]interface{})
+	env := new(multistep.BasicStateBag)
 
 	os.Mkdir("tmp", 0777)
-	env["config_path"] = "tmp/"
+	env.Put("config_path", "tmp/")
 
 	step := &StepCheckConfigurationFile{}
 
@@ -24,11 +25,11 @@ func TestStepCheckConfigurationFile_No_Config(t *testing.T) {
 }
 
 func TestStepCheckConfigurationFile_Corrupt_Config(t *testing.T) {
-	env := make(map[string]interface{})
+	env := new(multistep.BasicStateBag)
 
 	os.Mkdir("tmp", 0777)
 
-	env["config_path"] = "tmp/"
+	env.Put("config_path", "tmp/")
 	file, _ := os.Create("tmp/.gethubconfig")
 
 	// Some messy string
@@ -47,10 +48,10 @@ func TestStepCheckConfigurationFile_Corrupt_Config(t *testing.T) {
 }
 
 func TestStepCheckConfigurationFile_Good_Config(t *testing.T) {
-	env := make(map[string]interface{})
+	env := new(multistep.BasicStateBag)
 
 	os.Mkdir("tmp", 0777)
-	env["config_path"] = "tmp/"
+	env.Put("config_path", "tmp/")
 
 	file, _ := os.Create("tmp/.gethubconfig")
 

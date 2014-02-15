@@ -1,20 +1,21 @@
 package steps
 
 import (
-	"github.com/mitchellh/multistep"
-	"github.com/pearkes/goconfig/config"
 	"log"
 	"os"
+
+	"github.com/mitchellh/multistep"
+	"github.com/pearkes/goconfig/config"
 )
 
 type StepCreateConfiguration struct{}
 
-func (*StepCreateConfiguration) Run(state map[string]interface{}) multistep.StepAction {
+func (*StepCreateConfiguration) Run(state multistep.StateBag) multistep.StepAction {
 	log.Println("Creating configuration...")
 
-	path := state["path"].(string)
-	username := state["username"].(string)
-	token := state["token"].(string)
+	path := state.Get("path").(string)
+	username := state.Get("username").(string)
+	token := state.Get("token").(string)
 
 	conf := config.NewDefault()
 
@@ -33,4 +34,4 @@ func (*StepCreateConfiguration) Run(state map[string]interface{}) multistep.Step
 	return multistep.ActionContinue
 }
 
-func (*StepCreateConfiguration) Cleanup(map[string]interface{}) {}
+func (*StepCreateConfiguration) Cleanup(multistep.StateBag) {}

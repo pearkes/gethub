@@ -1,15 +1,16 @@
 package steps
 
 import (
-	"github.com/mitchellh/multistep"
 	"os"
 	"testing"
+
+	"github.com/mitchellh/multistep"
 )
 
 func TestStepCheckPath_Exists(t *testing.T) {
-	env := make(map[string]interface{})
+	env := new(multistep.BasicStateBag)
 
-	env["path"] = "tmp/"
+	env.Put("path", "tmp/")
 	os.Mkdir("tmp", 0777)
 
 	step := &StepCheckPath{}
@@ -23,9 +24,9 @@ func TestStepCheckPath_Exists(t *testing.T) {
 }
 
 func TestStepCheckPath_Not_Exists(t *testing.T) {
-	env := make(map[string]interface{})
+	env := new(multistep.BasicStateBag)
 
-	env["path"] = "foobar/"
+	env.Put("path", "foobar/")
 
 	step := &StepCheckPath{}
 

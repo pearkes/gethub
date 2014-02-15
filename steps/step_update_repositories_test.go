@@ -1,17 +1,18 @@
 package steps
 
 import (
-	"github.com/mitchellh/multistep"
 	"os"
 	"os/exec"
 	"testing"
+
+	"github.com/mitchellh/multistep"
 )
 
 func TestStepUpdateRepositories(t *testing.T) {
-	env := make(map[string]interface{})
-	env["path"] = "tmp"
-	env["ignored_owners"] = []string{}
-	env["ignored_repos"] = []string{}
+	env := new(multistep.BasicStateBag)
+	env.Put("path", "tmp")
+	env.Put("ignored_owners", []string{})
+	env.Put("ignored_repos", []string{})
 
 	originPath := "tmp/pearkes/origin"
 
@@ -36,7 +37,7 @@ func TestStepUpdateRepositories(t *testing.T) {
 	cmdClone.Run()
 
 	repo := Repo{FullName: "pearkes/test", SSHUrl: "../origin"}
-	env["repos"] = []Repo{repo}
+	env.Put("repos", []Repo{repo})
 
 	step := &StepUpdateRepositories{}
 

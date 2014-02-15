@@ -1,16 +1,17 @@
 package steps
 
 import (
-	"github.com/mitchellh/multistep"
-	"github.com/pearkes/goconfig/config"
 	"os"
 	"testing"
+
+	"github.com/mitchellh/multistep"
+	"github.com/pearkes/goconfig/config"
 )
 
 func TestStepInjectConfiguration(t *testing.T) {
-	env := make(map[string]interface{})
+	env := new(multistep.BasicStateBag)
 	os.Mkdir("tmp", 0777)
-	env["config_path"] = "tmp/"
+	env.Put("config_path", "tmp/")
 
 	conf := config.NewDefault()
 

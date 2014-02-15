@@ -1,15 +1,16 @@
 package steps
 
 import (
-	"github.com/mitchellh/multistep"
 	"os"
 	"os/exec"
 	"testing"
+
+	"github.com/mitchellh/multistep"
 )
 
 func TestStepCloneRepo_Exists(t *testing.T) {
-	env := make(map[string]interface{})
-	env["path"] = "tmp"
+	env := new(multistep.BasicStateBag)
+	env.Put("path", "tmp")
 
 	originPath := "tmp/pearkes/origin"
 
@@ -31,8 +32,8 @@ func TestStepCloneRepo_Exists(t *testing.T) {
 	cmdCommit.Run()
 
 	repo := Repo{FullName: "pearkes/test", SSHUrl: "../origin"}
-	env["repo"] = repo
-	env["repo_state"] = "clone"
+	env.Put("repo", repo)
+	env.Put("repo_state", "clone")
 
 	step := &StepCloneRepo{}
 
@@ -46,12 +47,12 @@ func TestStepCloneRepo_Exists(t *testing.T) {
 }
 
 func TestStepCloneRepo_Not_Exists(t *testing.T) {
-	env := make(map[string]interface{})
-	env["path"] = "tmp"
+	env := new(multistep.BasicStateBag)
+	env.Put("path", "tmp")
 
 	repo := Repo{FullName: "pearkes/test", SSHUrl: "foobar"}
-	env["repo"] = repo
-	env["repo_state"] = "clone"
+	env.Put("repo", repo)
+	env.Put("repo_state", "clone")
 
 	step := &StepCloneRepo{}
 
@@ -65,16 +66,16 @@ func TestStepCloneRepo_Not_Exists(t *testing.T) {
 }
 
 func TestStepCloneRepo_Skip_State(t *testing.T) {
-	env := make(map[string]interface{})
-	env["path"] = "tmp"
+	env := new(multistep.BasicStateBag)
+	env.Put("path", "tmp")
 
 	originPath := "tmp/pearkes/origin"
 
 	os.MkdirAll(originPath, 0777)
 
 	repo := Repo{FullName: "pearkes/test", SSHUrl: "foobar"}
-	env["repo"] = repo
-	env["repo_state"] = "fetch"
+	env.Put("repo", repo)
+	env.Put("repo_state", "fetch")
 
 	step := &StepCloneRepo{}
 

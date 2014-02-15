@@ -1,15 +1,16 @@
 package steps
 
 import (
-	"github.com/mitchellh/multistep"
 	"os"
 	"os/exec"
 	"testing"
+
+	"github.com/mitchellh/multistep"
 )
 
 func TestStepFetchRepo_Exists(t *testing.T) {
-	env := make(map[string]interface{})
-	env["path"] = "tmp"
+	env := new(multistep.BasicStateBag)
+	env.Put("path", "tmp")
 
 	originPath := "tmp/pearkes/origin"
 
@@ -34,8 +35,8 @@ func TestStepFetchRepo_Exists(t *testing.T) {
 	cmdClone.Run()
 
 	repo := Repo{FullName: "pearkes/test", SSHUrl: "../origin"}
-	env["repo"] = repo
-	env["repo_state"] = "fetch"
+	env.Put("repo", repo)
+	env.Put("repo_state", "fetch")
 
 	step := &StepFetchRepo{}
 
@@ -49,12 +50,12 @@ func TestStepFetchRepo_Exists(t *testing.T) {
 }
 
 func TestStepFetchRepo_Not_Exists(t *testing.T) {
-	env := make(map[string]interface{})
-	env["path"] = "tmp"
+	env := new(multistep.BasicStateBag)
+	env.Put("path", "tmp")
 
 	repo := Repo{FullName: "pearkes/test", SSHUrl: "foobaz"}
-	env["repo"] = repo
-	env["repo_state"] = "fetch"
+	env.Put("repo", repo)
+	env.Put("repo_state", "fetch")
 
 	step := &StepFetchRepo{}
 
@@ -68,12 +69,12 @@ func TestStepFetchRepo_Not_Exists(t *testing.T) {
 }
 
 func TestStepFetchRepo_Skip_State(t *testing.T) {
-	env := make(map[string]interface{})
-	env["path"] = "tmp"
+	env := new(multistep.BasicStateBag)
+	env.Put("path", "tmp")
 
 	repo := Repo{FullName: "pearkes/test", SSHUrl: "foobaz"}
-	env["repo"] = repo
-	env["repo_state"] = "clone"
+	env.Put("repo", repo)
+	env.Put("repo_state", "clone")
 
 	step := &StepFetchRepo{}
 
