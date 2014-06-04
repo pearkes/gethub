@@ -88,7 +88,7 @@ Sometimes you don't want to retrieve that gigantic project that
 someone committed `.mov` files to.
 
     [ignores]
-    repo: icloud, facebook
+    repo: icloud, facebook, pearkes/bootstrap
     owner: adobe
 
 ## Contributing

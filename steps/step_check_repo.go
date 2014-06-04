@@ -21,7 +21,7 @@ func (*StepCheckRepo) Run(state multistep.StateBag) multistep.StepAction {
 
 	// Check if the repo is ignored by it's name
 	for _, ignoredName := range ignoredRepos {
-		if ignoredName == repo.Name() {
+		if ignoredName == repo.Name() || ignoredName == repo.FullName {
 			state.Put("repo_state", "ignore")
 			state.Put("repo_result", "ignore")
 			return multistep.ActionContinue

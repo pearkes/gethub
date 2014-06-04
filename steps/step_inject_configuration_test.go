@@ -23,6 +23,7 @@ func TestStepInjectConfiguration(t *testing.T) {
 	conf.AddOption("github", "username", "foo")
 	conf.AddOption("github", "token", "bar")
 	conf.AddOption("ignores", "repo", "facebook")
+	conf.AddOption("ignores", "repo", "pearkes/bootstrap")
 	conf.AddOption("ignores", "owner", "pearkes")
 
 	conf.WriteFile("tmp/.gethubconfig", 0644, "")
