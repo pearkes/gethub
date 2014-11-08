@@ -53,6 +53,41 @@ authorization token from GitHub's API, which will be stored in
 		log.Println(err)
 	}
 
+	fmt.Printf("Please enter your personal access token (Skip if you do not use two factor authentication):")
+
+	t := gopass.GetPasswd()
+	token := string(t)
+
+	if (token != "") {
+		state.Put("token", token)
+		state.Put("username", username)
+		state.Put("path", path)
+
+		resp, err := http.Get("https://api.github.com/user?access_token=" + token)
+
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		defer resp.Body.Close()
+
+		if resp.StatusCode != 200 {
+			body, err := ioutil.ReadAll(resp.Body)
+
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			fmt.Println(RED + "Uh oh, there was an error authenticating with GitHub. Here's what we got back:\n" + CLEAR)
+			fmt.Println(string(body))
+			return multistep.ActionHalt
+		} else {
+			fmt.Println(GREEN + "Succesfully authenticated with Github. Try running `gethub`." + CLEAR)
+		}
+
+		return multistep.ActionContinue
+	}
+
 	fmt.Printf("Please enter your GitHub password: ")
 
 	p := gopass.GetPasswd()
