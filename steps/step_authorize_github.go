@@ -53,12 +53,12 @@ authorization token from GitHub's API, which will be stored in
 		log.Println(err)
 	}
 
-	fmt.Printf("Please enter your personal access token (Skip if you do not use two factor authentication):")
+	fmt.Printf("If you use Two-Factor Authentication, enter a generated personal access token now. (Otherwise, press enter to skip and use a password): ")
 
 	t := gopass.GetPasswd()
 	token := string(t)
 
-	if (token != "") {
+	if token != "" {
 		state.Put("token", token)
 		state.Put("username", username)
 		state.Put("path", path)
