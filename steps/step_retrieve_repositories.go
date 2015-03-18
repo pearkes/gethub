@@ -40,11 +40,12 @@ func (*StepRetrieveRepositories) Run(state multistep.StateBag) multistep.StepAct
 	var endpoints []string
 
 	token := state.Get("token").(string)
+	host := state.Get("host").(string)
 
 	fmt.Printf("Contacting GitHub... ")
 
 	// Retrieve Organizations
-	body := apiRequest(token, "/user/orgs?access_token=")
+	body := apiRequest(host, token, "/user/orgs?access_token=")
 	var orgs []Org
 	err := json.Unmarshal(body, &orgs)
 	if err != nil {
@@ -67,7 +68,7 @@ func (*StepRetrieveRepositories) Run(state multistep.StateBag) multistep.StepAct
 
 		go func(endpoint string) {
 			repos := []Repo{}
-			body := apiRequest(token, endpoint)
+			body := apiRequest(host, token, endpoint)
 			err := json.Unmarshal(body, &repos)
 			if err != nil {
 				fmt.Println(err)
@@ -92,10 +93,10 @@ func (*StepRetrieveRepositories) Run(state multistep.StateBag) multistep.StepAct
 
 func (*StepRetrieveRepositories) Cleanup(multistep.StateBag) {}
 
-func apiRequest(token string, endpoint string) []byte {
+func apiRequest(host string, token string, endpoint string) []byte {
 	client := &http.Client{}
 
-	url := fmt.Sprintf("https://api.github.com%s%s", endpoint, token)
+	url := host + endpoint + token
 
 	req, err := http.NewRequest("GET", url,
 		nil)

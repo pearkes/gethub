@@ -53,6 +53,17 @@ authorization token from GitHub's API, which will be stored in
 		log.Println(err)
 	}
 
+	fmt.Printf("Set GitHub API host without trailing '/' (press enter to use default: https://api.github.com): ")
+	var host string
+	_, err = fmt.Scanf("%s", &host)
+
+	if err != nil {
+		log.Println(err)
+		// No host entered so default to https://api.github.com
+		host = githubAPIHost
+	}
+	state.Put("host", host)
+
 	fmt.Printf("If you use Two-Factor Authentication, enter a generated personal access token now. (Otherwise, press enter to skip and use a password): ")
 
 	t := gopass.GetPasswd()
@@ -63,7 +74,7 @@ authorization token from GitHub's API, which will be stored in
 		state.Put("username", username)
 		state.Put("path", path)
 
-		resp, err := http.Get("https://api.github.com/user?access_token=" + token)
+		resp, err := http.Get(host + "/user?access_token=" + token)
 
 		if err != nil {
 			fmt.Println(err)
@@ -102,8 +113,7 @@ authorization token from GitHub's API, which will be stored in
         "note":"gethub command line client",
         "note_url": "https://github.com/pearkes/gethub"}`)
 
-	req, err := http.NewRequest("POST",
-		"https://api.github.com/authorizations", reqBody)
+	req, err := http.NewRequest("POST", host + "/authorizations", reqBody)
 
 	req.Header.Add("Content-Type", "application/json")
 	req.SetBasicAuth(username, password)
