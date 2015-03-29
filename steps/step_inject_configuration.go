@@ -9,6 +9,8 @@ import (
 	"github.com/pearkes/goconfig/config"
 )
 
+const githubAPIHost = "https://api.github.com"
+
 type StepInjectConfiguration struct{}
 
 func (*StepInjectConfiguration) Run(state multistep.StateBag) multistep.StepAction {
@@ -53,6 +55,11 @@ func (*StepInjectConfiguration) Run(state multistep.StateBag) multistep.StepActi
 	state.Put("token", token)
 	username, _ := c.String("github", "username")
 	state.Put("username", username)
+	host, _ := c.String("github", "host")
+	if host == "" {
+		host = githubAPIHost
+	}
+	state.Put("host", host)
 
 	state.Put("ignored_repos", repos)
 	state.Put("ignored_owners", owners)

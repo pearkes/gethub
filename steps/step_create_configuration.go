@@ -16,6 +16,7 @@ func (*StepCreateConfiguration) Run(state multistep.StateBag) multistep.StepActi
 	path := state.Get("path").(string)
 	username := state.Get("username").(string)
 	token := state.Get("token").(string)
+	host := state.Get("host").(string)
 
 	conf := config.NewDefault()
 
@@ -26,6 +27,7 @@ func (*StepCreateConfiguration) Run(state multistep.StateBag) multistep.StepActi
 	conf.AddOption("gethub", "path", path)
 	conf.AddOption("github", "username", username)
 	conf.AddOption("github", "token", token)
+	conf.AddOption("github", "host", host)
 	conf.AddOption("ignores", "repo", "")
 	conf.AddOption("ignores", "owner", "")
 

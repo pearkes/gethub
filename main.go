@@ -11,6 +11,8 @@ import (
 	"github.com/pearkes/gethub/steps"
 )
 
+const versionString = "gethub 0.1.3"
+
 func main() {
 	// Debugging and version flags
 	debug := flag.Bool("debug", false, "Logs debugging information to STDOUT.")
@@ -30,12 +32,12 @@ func main() {
 
 	// Print the version and exit
 	if *version {
-		fmt.Println(versionString())
+		fmt.Println(versionString)
 		os.Exit(1)
 	}
 
 	// Log enabled debugging
-	log.Println("Debugging enabled for", versionString())
+	log.Println("Debugging enabled for", versionString)
 
 	state := new(multistep.BasicStateBag)
 	state.Put("debug", *debug)
@@ -82,4 +84,23 @@ func authorizeRunner(state multistep.StateBag) {
 
 	runner := &multistep.BasicRunner{Steps: steps}
 	runner.Run(state)
+}
+
+// usage prints out the package help
+func usage() {
+	fmt.Println(`Usage: gethub [-v] [-h] [-d] [<path>]
+
+    -v, --version                   Prints the version and exits.
+    -h, --help                      Prints the usage information.
+    -d, --debug                     Logs debugging information to STDOUT.
+
+Arguments:
+
+    path                            The path to place or update the
+                                    repostories. Defaults to the path
+                                    in ~/.gethubconfig. This is required
+                                    the first time you run gethub.
+
+To learn more or to contribute, please see github.com/pearkes/gethub`)
+	os.Exit(1)
 }
