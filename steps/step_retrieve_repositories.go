@@ -58,8 +58,11 @@ func (*StepRetrieveRepositories) Run(state multistep.StateBag) multistep.StepAct
 		endpoints = append(endpoints, "/orgs/"+org.Name+"/repos?type=all&per_page=100&access_token=")
 	}
 
-	// Add the user's repos to the endpoint
-	endpoints = append(endpoints, "/user/repos?type=all&per_page=100&access_token=")
+	// Any repos the user is a member of
+	endpoints = append(endpoints, "/user/repos?type=member&per_page=100&access_token=")
+
+	// Any repos a user is an owner of
+	endpoints = append(endpoints, "/user/repos?type=owner&per_page=100&access_token=")
 
 	var wg sync.WaitGroup
 	// Asynchronously retrieve all repositories from GitHub
