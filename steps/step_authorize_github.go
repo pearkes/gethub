@@ -66,7 +66,11 @@ authorization token from GitHub's API, which will be stored in
 
 	fmt.Printf("If you use Two-Factor Authentication, enter a generated personal access token now. (Otherwise, press enter to skip and use a password): ")
 
-	t := gopass.GetPasswd()
+	t, err := gopass.GetPasswd()
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	token := string(t)
 
 	if token != "" {
@@ -101,7 +105,11 @@ authorization token from GitHub's API, which will be stored in
 
 	fmt.Printf("Please enter your GitHub password: ")
 
-	p := gopass.GetPasswd()
+	p, err := gopass.GetPasswd()
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	fmt.Printf("\n")
 
 	password := string(p)
