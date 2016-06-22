@@ -69,6 +69,7 @@ authorization token from GitHub's API, which will be stored in
 	t, err := gopass.GetPasswd()
 	if err != nil {
 		fmt.Println(err)
+		os.Exit(1)
 	}
 
 	token := string(t)
@@ -108,6 +109,7 @@ authorization token from GitHub's API, which will be stored in
 	p, err := gopass.GetPasswd()
 	if err != nil {
 		fmt.Println(err)
+		os.Exit(1)
 	}
 
 	fmt.Printf("\n")
