@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admission page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+  body {
+      position: relative; 
+  }
+#section12 {padding-top:50px;height:100px;}
+  #section1 {padding-top:50px;height:500px;color: #fff; background-color: #d4d8d1;}
+  #section2 {padding-top:50px;height:500px;color: #fff; background-color: #d4d8d1;}
+  #section3 {padding-top:50px;height:500px;color: #fff; background-color: #D4D8D1;}
+  #section41 {padding-top:50px;height:500px;color: #fff; background-color: #D4D8D1;}
+  #section42 {padding-top:50px;height:500px;color: #fff; background-color: #D4D8D1;}
+button {
+  margin: 20px 0;
+  line-height: 30px;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  outline:none !important;
+  width:%;
+}
+
+button:active {
+
+  outline:none;
+}
+
+button.ribbon {
+  
+  outline:none;
+  outline-color: transparent;
+}
+button.ribbon:before, button.ribbon:after {
+  top: 5px;
+  z-index: -10;
+}
+button.ribbon:before {
+  border-color: #53dab6 #53dab6 #53dab6 transparent;
+  left: -25px;
+  border-width: 17px;
+}
+button.ribbon:after {
+  border-color: #53dab6 transparent #53dab6 #53dab6;
+  right: -25px;
+  border-width: 17px;
+}
+
+button:before, button:after {
+  content: '';
+  position: absolute;
+  height: 0;
+  width: 0;
+  border-style: solid;
+  border-width: 0;
+  outline:none;
+}
+
+ button.btn-primary:before {
+  border-color: #2e6da4 #2e6da4 #2e6da4 transparent;
+    }
+    button.btn-primary:after {
+  border-color: #2e6da4 transparent #2e6da4 #2e6da4;
+    }
+.navbar {
+    color:#FFFF00;
+    background-color: #CEEBFB;
+}
+.carousel-control.left,.carousel-control.right  {background:none;width:20px;}
+.carousel-control.left {left:-20px;}
+.carousel-control.right {right:-20px;}
+.broun-block {
+    background: url("http://myinstantcms.ru/images/bg-broun1.jpg") repeat scroll center top rgba(0, 0, 0, 0);
+    padding-bottom: 34px;
+}
+.block-text {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 3px 0 #2c2222;
+    color: #626262;
+    font-size: 14px;
+    margin-top: 27px;
+    padding: 15px 18px;
+}
+.block-text a {
+ color: #7d4702;
+    font-size: 25px;
+    font-weight: bold;
+    line-height: 21px;
+    text-decoration: none;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.block-text p {
+    color: #585858;
+    font-family: Georgia;
+    font-style: italic;
+    line-height: 20px;
+}
+.sprite {
+	background-image: url('');
+}
+.sprite-i-triangle {
+    background-position: 0 -1298px;
+    height: 44px;
+    width: 50px;
+}
+.block-text ins {
+    bottom: -44px;
+    left: 50%;
+    margin-left: -60px;
+}
+
+
+.block {
+    display: block;
+}
+.zmin {
+    z-index: 1;
+}
+.ab {
+    position: absolute;
+}
+
+.person-text {
+    padding: 10px 0 0;
+    text-align: center;
+    z-index: 2;
+}
+.person-text a {
+    color: #ffcc00;
+    display: block;
+    font-size: 14px;
+    margin-top: 3px;
+    text-decoration: underline;
+}
+.person-text i {
+    color: #fff;
+    font-family: Georgia;
+    font-size: 13px;
+}
+.rel {
+    position: relative;
+}
+  
+/* Blue Flat Button
+==================================================*/
+.btn-xlarge{
+  position: relative;
+  vertical-align: center;
+  margin: 30px;
+  /*width: 100%;*/
+  height: 100x;
+  padding: 48px 48px;
+  font-size: 22px;
+  color:black ;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  background: #62b1d0;
+  border: 0;
+  border-bottom: 3px solid #9FE8EF;
+  cursor: pointer;
+  -webkit-box-shadow: inset 0 -3px #9FE8EF;
+  box-shadow: inset 0 -3px #9FE8EF;
+}
+.btn-xlarge:active {
+  top: 2px;
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.btn-xlarge:hover {
+  background: #45E1E8;
+}
+ 
+ 
+
+  </style>
+</head>
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
+
+<nav class="navbar  navbar-fixed-top ">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">NITK Admissions </a>
+   
+    </div>
+    <div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li><a href="#section1"><button type="button" class="btn btn-primary ribbon">MCA Admision</button>&nbsp;
+</a></li>
+          <li><a href="#section2"><button type="button" class="btn btn-primary ribbon">B.tech Admisions</button></a></li>
+          <li><a href="#section3"><button type="button" class="btn btn-primary ribbon">M.Tech Admisions</button></a></li>
+          <li><a href="#section3"><button type="button" class="btn btn-primary ribbon">Ph.d Admision</button></a></li>
+
+
+         
+                    <li><a href="#section3"><button type="button" class="btn btn-primary ribbon">MBA Admision</button></a></li>
+          <li><a href="#section3"><button type="button" class="btn btn-primary ribbon">M.sc Admision</button></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>    
+<div id="section12" class="row">
+  
+</div>
+
+</div>
+<div class="carousel-reviews broun-block">
+    <div class="container-fluid">
+        <div class="row">
+            <div id="carousel-reviews" class="carousel slide" data-ride="carousel">
+            
+                <div class="carousel-inner">
+                    <div class="item active">
+                	    <div class="col-md-4 col-sm-6">
+        				    <div class="block-text rel zmin">
+						        <a title="" href="#">MCA</a>
+							    <div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3" class="glyphicon glyphicon-star"></span><span data-value="4" class="glyphicon glyphicon-star-empty"></span><span data-value="5" class="glyphicon glyphicon-star-empty"></span>  </span></div>
+						        <p>Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification. 
+</p>
+							    <ins class="ab zmin sprite sprite-i-triangle block"></ins>
+					        </div>
+							<div class="person-text rel">
+				                 <img src="/home/raman/Desktop/r.png" class="img-circle">
+								<a title="" href="#">A Senthil Thilak</a>
+								<i>Assistant Professor</i>
+								
+							</div>
+						</div>
+            			<div class="col-md-4 col-sm-6 ">
+						    <div class="block-text rel zmin">
+						        <a title="" href="#">B.TECH</a>
+							    <div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star-empty"></span><span data-value="3" class="glyphicon glyphicon-star-empty"></span><span data-value="4" class="glyphicon glyphicon-star-empty"></span><span data-value="5" class="glyphicon glyphicon-star-empty"></span>  </span></div>
+        						<p> Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification. 
+</p></p>
+					            <ins class="ab zmin sprite sprite-i-triangle block"></ins>
+				            </div>
+							<div class="person-text rel">
+				                <img src="home/raman/Desktop/r.png">
+						        <a title="" href="#">A Senthil Thilak</a>
+								<i>Assistant Professor</i>
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-6 ">
+							<div class="block-text rel zmin">
+								<a title="" href="#">M.TECH</a>
+								<div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3" class="glyphicon glyphicon-star"></span><span data-value="4" class="glyphicon glyphicon-star"></span><span data-value="5" class="glyphicon glyphicon-star"></span>  </span></div>
+    							<p> Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  </p>
+								<ins class="ab zmin sprite sprite-i-triangle block"></ins>
+							</div>
+							<div class="person-text rel">
+								<img src="/home/raman/Desktop/r.png"/>
+								<a title="" href="#">A Senthil Thilak</a>
+								<i>Assistant Professor</i>
+							</div>
+						</div>
+                    </div>
+                    <div class="item">
+                        <div class="col-md-4 col-sm-6">
+        				    <div class="block-text rel zmin">
+						        <a title="" href="#">M.SC</a>
+							    <div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3" class="glyphicon glyphicon-star"></span><span data-value="4" class="glyphicon glyphicon-star-empty"></span><span data-value="5" class="glyphicon glyphicon-star-empty"></span>  </span></div>
+						        <p>Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification. </p>
+							    <ins class="ab zmin sprite sprite-i-triangle block"></ins>
+					        </div>
+							<div class="person-text rel">
+								<img alt="" src="/home/raman/Desktop/r.png"/">
+								<a title="" href="#">A Senthil Thilak</a>
+								<i>Assistant Professor</i>
+							</div>
+						</div>
+            			<div class="col-md-4 col-sm-6 ">
+						    <div class="block-text rel zmin">
+						        <a title="" href="#">PH.D</a>
+							    <div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star-empty"></span><span data-value="3" class="glyphicon glyphicon-star-empty"></span><span data-value="4" class="glyphicon glyphicon-star-empty"></span><span data-value="5" class="glyphicon glyphicon-star-empty"></span>  </span></div>
+        						<p> Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  </p>
+					            <ins class="ab zmin sprite sprite-i-triangle block"></ins>
+				            </div>
+							<div class="person-text rel">
+								<img alt="" src="/home/raman/Desktop/r.png"/">
+						        <a title="" href="#"></a>
+								<i>A Senthil Thilak</i>
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-6 ">
+							<div class="block-text rel zmin">
+								<a title="" href="#">MBA</a>
+								<div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3" class="glyphicon glyphicon-star"></span><span data-value="4" class="glyphicon glyphicon-star"></span><span data-value="5" class="glyphicon glyphicon-star"></span>  </span></div>
+    							<p>Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification. </p>
+								<ins class="ab zmin sprite sprite-i-triangle block"></ins>
+							</div>
+							<div class="person-text rel">
+								<img alt="" src="/home/raman/Desktop/r.png">
+								<a title="" href="#">A Senthil Thilak</a>
+								<i>Indonesia</i>
+							</div>
+						</div>
+                    </div>
+                    <div class="item">
+                        <div class="col-md-4 col-sm-6">
+        				    <div class="block-text rel zmin">
+						        <a title="" href="#">MCA</a>
+							    <div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3" class="glyphicon glyphicon-star"></span><span data-value="4" class="glyphicon glyphicon-star-empty"></span><span data-value="5" class="glyphicon glyphicon-star-empty"></span>  </span></div>
+						        <p>Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification. </p>
+							    <ins class="ab zmin sprite sprite-i-triangle block"></ins>
+					        </div>
+							<div class="person-text rel">
+								<img alt="" src="/home/raman/Desktop/r.png">
+								<a title="" href="#">A Senthil Thilak</a>
+								<i></i>
+							</div>
+						</div>
+            			<div class="col-md-4 col-sm-6 ">
+						    <div class="block-text rel zmin">
+						        <a title="" href="#">M.TECH</a>
+							    <div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star-empty"></span><span data-value="3" class="glyphicon glyphicon-star-empty"></span><span data-value="4" class="glyphicon glyphicon-star-empty"></span><span data-value="5" class="glyphicon glyphicon-star-empty"></span>  </span></div>
+        						<p>Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.   </p>
+					            <ins class="ab zmin sprite sprite-i-triangle block"></ins>
+				            </div>
+							<div class="person-text rel">
+								<img alt="" src="/home/raman/Desktop/r.png">
+						        <a title="" href="#">A Senthil Thilak</a>
+								<i></i>
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-6">
+							<div class="block-text rel zmin">
+								<a title="" href="#">MCA</a>
+								<div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3" class="glyphicon glyphicon-star"></span><span data-value="4" class="glyphicon glyphicon-star"></span><span data-value="5" class="glyphicon glyphicon-star"></span>  </span></div>
+    							<p>Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification. </p>
+								<ins class="ab zmin sprite sprite-i-triangle block"></ins>
+							</div>
+							<div class="person-text rel">
+								<img alt="" src="/home/raman/Desktop/r.png">
+								<a title="" href="#">A Senthil Thilak</a>
+								<i></i>
+							</div>
+						</div>
+                    </div>                    
+                </div>
+                <a class="left carousel-control" href="#carousel-reviews" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-menu-right"></span>
+                </a>
+                <a class="right carousel-control" href="#carousel-reviews" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-menu-left"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+
+<div id="section2" class="container-fluid"><div class="col-md-12 col-sm-12 ">
+						    <div class="block-text rel zmin">
+						        <a title="" href="#"><p class="text-center"><i><bold>B.Tech</i></p></a>
+							    
+        						<p>Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification. Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link 
+            <p class="text-center">  <button href="#"  class="btn btn-xlarge" center-block />M.tech admission gate </i></button>
+              <button href="#"  class="btn btn-xlarge class="text-center"" /> M.tech admission dasa<i class="fa fa-chevron-up fa-5x" ></i></button>
+    </p>
+					            
+				            </div>
+							
+						</div>
+  
+</div>
+<div id="section1" class="container-fluid"><div class="col-md-12 col-sm-12 ">
+						    <div class="block-text rel zmin">
+						        <a title="" href="#"><p class="text-center"><i><bold>MCA</i></p></a>
+							    
+        						<p>Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification. Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link 
+            <p class="text-center">  <button href="#"  class="btn btn-xlarge" center-block />M.tech admission </i></button>
+              <button href="#"  class="btn btn-xlarge class="text-center"" /> M.tech admission dasa</button>
+    </p>
+					            
+				            </div>
+							
+						</div>
+  
+ 
+</div>
+<div id="section3" class="container-fluid"><div class="col-md-12 col-sm-12 ">
+						    <div class="block-text rel zmin">
+						        <a title="" href="#"><p class="text-center"><i><bold>M.tech</i></p></a>
+							    
+        						<p>Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification. Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  ducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link 
+            <p class="text-center">  <button href="#"  class="btn btn-xlarge" center-block />M.tech admission gate </i></button>
+              <button href="#"  class="btn btn-xlarge class="text-center"" /> M.tech admission dasa<i class="fa fa-chevron-up fa-5x" ></i></button>
+    </p>
+					            
+				            </div>
+							
+						</div>
+  
+</div>
+<div id="section41" class="container-fluid">
+ <div class="col-md-12 col-sm-12 ">
+						    <div class="block-text rel zmin">
+						        <a title="" href="#"><p class="text-center"><i><bold>M.sc</i></p></a>
+							    
+        						<p>Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification. Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.Mca is three Year course.NIT MCA Common Entrance Test-2016 will be conducted by NIT Durgapur and the test will be held on 29th May 2016 at different test Centre, for details Visit this link and Click here for paper notification.  for details Visit this link and Click here for paper notification.  for details Visit this link 
+            <p class="text-center">  <button href="#"  class="btn btn-xlarge"  />M.tech admission </i></button>
+              <button href="#"  class="btn btn-xlarge class="text-center"" /> M.tech admission dasa<i class="fa fa-chevron-up fa-5x" ></i></button>
+    </p>
+					            
+				            </div>
+							
+						</div>
+  
+</div>
+
+
+</body>
+</html>
