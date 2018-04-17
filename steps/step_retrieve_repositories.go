@@ -1,15 +1,13 @@
 package steps
 
 import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
+	"context"
 	"log"
-	"net/http"
 	"strings"
-	"sync"
 
+	"github.com/google/go-github/github"
 	"github.com/mitchellh/multistep"
+	"golang.org/x/oauth2"
 )
 
 // type Org represents an organization
@@ -19,9 +17,9 @@ type Org struct {
 
 // type Repo represents a single repository
 type Repo struct {
-	FullName string `json:"full_name"`
-	SSHUrl   string `json:"ssh_url"`
-	HTTPSUrl string `json:"clone_url"`
+	FullName string
+	SSHUrl   string
+	HTTPSUrl string
 }
 
 func (r Repo) Owner() string {
@@ -37,92 +35,119 @@ type StepRetrieveRepositories struct{}
 func (*StepRetrieveRepositories) Run(state multistep.StateBag) multistep.StepAction {
 	log.Println("Retrieving remote repositories...")
 	var allRepos []Repo
-	var endpoints []string
-
 	token := state.Get("token").(string)
-	host := state.Get("host").(string)
 
-	fmt.Printf("Contacting GitHub... ")
+	ctx := context.Background()
+	ts := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: token},
+	)
+	tc := oauth2.NewClient(ctx, ts)
+
+	client := github.NewClient(tc)
+	log.Printf("Contacting GitHub... ")
 
 	// Retrieve Organizations
-	body := apiRequest(host, token, "/user/orgs?access_token=")
-	var orgs []Org
-	err := json.Unmarshal(body, &orgs)
+	orgs, _, err := client.Organizations.List(ctx, "", nil)
+
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
-	log.Println(len(orgs), "organizations retrieved from GitHub")
-
-	// Build the endpoint for each organization
+	reposForOrgs := map[*github.Organization]*[]*github.Repository{}
 	for _, org := range orgs {
-		endpoints = append(endpoints, "/orgs/"+org.Name+"/repos?type=all&per_page=100&access_token=")
+		log.Println("Getting", org)
+		repos, err := reposForOrg(ctx, client, *org.Login)
+		if err != nil {
+			log.Println("Could not get repos for ", org.GetName(), err)
+			continue
+		} else {
+			log.Printf("Got %d repos for %s", len(repos), org.GetName())
+		}
+		for _, repo := range repos {
+			allRepos = append(allRepos, gRepo(repo))
+		}
+		reposForOrgs[org] = &repos
 	}
 
-	// Any repos the user is a member of
-	endpoints = append(endpoints, "/user/repos?type=member&per_page=100&access_token=")
-
-	// Any repos a user is an owner of
-	endpoints = append(endpoints, "/user/repos?type=owner&per_page=100&access_token=")
-
-	var wg sync.WaitGroup
-	// Asynchronously retrieve all repositories from GitHub
-	for _, endpoint := range endpoints {
-		wg.Add(1)
-
-		go func(endpoint string) {
-			repos := []Repo{}
-			body := apiRequest(host, token, endpoint)
-			err := json.Unmarshal(body, &repos)
-			if err != nil {
-				fmt.Println(err)
-			}
-			// Add the requested repos to the list of all repos
-			allRepos = append(allRepos, repos...)
-			// This one is done!
-			wg.Done()
-		}(endpoint)
+	memberOpts := &github.RepositoryListOptions{
+		Type: "member",
 	}
 
-	// Wait for every endpoint to be requested
-	wg.Wait()
+	ownerOpts := &github.RepositoryListOptions{
+		Type: "owner",
+	}
+
+	memeberRepos, err := getAllRepos(ctx, client, memberOpts)
+	if err != nil {
+		log.Printf("Error getting repos for Owner: %s\n", err)
+	}
+
+	ownerRepos, err := getAllRepos(ctx, client, ownerOpts)
+	if err != nil {
+		log.Printf("Error getting repos for Owner: %s\n", err)
+	}
+	for _, r := range memeberRepos {
+		allRepos = append(allRepos, gRepo(r))
+	}
+	for _, r := range ownerRepos {
+		allRepos = append(allRepos, gRepo(r))
+	}
 
 	log.Println(len(allRepos), "repositories retrieved from GitHub")
 	state.Put("repos", allRepos)
-
-	fmt.Printf("%sdone%s\n", GREEN, CLEAR)
+	log.Printf("%sdone%s\n", GREEN, CLEAR)
 
 	return multistep.ActionContinue
 }
 
-func (*StepRetrieveRepositories) Cleanup(multistep.StateBag) {}
-
-func apiRequest(host string, token string, endpoint string) []byte {
-	client := &http.Client{}
-
-	url := host + endpoint + token
-
-	req, err := http.NewRequest("GET", url,
-		nil)
-
-	resp, err := client.Do(req)
-
-	if err != nil {
-		fmt.Println(err)
+func gRepo(repo *github.Repository) Repo {
+	log.Println("Got:" + repo.GetFullName())
+	return Repo{
+		FullName: repo.GetFullName(),
+		SSHUrl:   repo.GetSSHURL(),
+		HTTPSUrl: repo.GetCloneURL(),
 	}
-
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-
-	if err != nil {
-		fmt.Println(err)
-	}
-	log.Println(resp.Status)
-
-	if resp.StatusCode != 200 {
-		fmt.Println(RED + "Uh oh, there was an error getting your talking to GitHub. Here's what we got back:\n" + CLEAR)
-		fmt.Println(string(body))
-	}
-
-	return body
 }
+func getAllRepos(ctx context.Context, client *github.Client, opts *github.RepositoryListOptions) ([]*github.Repository, error) {
+	// get all pages of results
+	var allRepos []*github.Repository
+
+	for {
+		log.Println("Fetching repos ")
+		repos, resp, err := client.Repositories.List(ctx, "", opts)
+		if err != nil {
+			return nil, err
+		}
+		allRepos = append(allRepos, repos...)
+		if resp.NextPage == 0 {
+			break
+		}
+		opts.Page = resp.NextPage
+	}
+
+	return allRepos, nil
+}
+
+func reposForOrg(ctx context.Context, client *github.Client, org string) ([]*github.Repository, error) {
+	perPage := 100
+	opt := &github.RepositoryListByOrgOptions{
+		ListOptions: github.ListOptions{PerPage: perPage},
+	}
+
+	var allRepos []*github.Repository
+	for {
+		repos, resp, err := client.Repositories.ListByOrg(ctx, org, opt)
+		if err != nil {
+			return nil, err
+		}
+		allRepos = append(allRepos, repos...)
+		if resp.NextPage == 0 {
+			break
+		}
+		opt.Page = resp.NextPage
+	}
+
+	log.Printf("Got %d repos for %s\n", len(allRepos), org)
+	return allRepos, nil
+}
+
+func (*StepRetrieveRepositories) Cleanup(multistep.StateBag) {}
