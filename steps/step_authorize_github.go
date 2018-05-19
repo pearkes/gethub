@@ -38,8 +38,7 @@ func (*StepAuthorizeGithub) Run(state multistep.StateBag) multistep.StepAction {
 	fmt.Println(`
 Your username and password will be used once to obtain a unique
 authorization token from GitHub's API, which will be stored in
-~/.gethubconfig.
-`)
+~/.gethubconfig.`)
 
 	// Asks the user for credentials, and then makes a request to the
 	// GitHub API to get an authorization token to store in ~/.getconfig
@@ -123,7 +122,7 @@ authorization token from GitHub's API, which will be stored in
         "note":"gethub command line client",
         "note_url": "https://github.com/pearkes/gethub"}`)
 
-	req, err := http.NewRequest("POST", host + "/authorizations", reqBody)
+	req, err := http.NewRequest("POST", host+"/authorizations", reqBody)
 
 	req.Header.Add("Content-Type", "application/json")
 	req.SetBasicAuth(username, password)
