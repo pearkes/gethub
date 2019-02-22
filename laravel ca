@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	 <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<header><center><h1>Welcome to MyUniversity</h1></header>
+	
+<div>
+     
+	 <div class="container">
+               
+  <table class="table">
+    <thead>
+      <tr>
+        <th>CourseCode</th>
+        <th>CourseName</th>
+        <th>Duration</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+    	@foreach($project as $k)
+      <tr>
+        <td>{{$k->CourseCode}}</td>
+        <td>{{$k->CourseName}}</td>
+        <td>{{$k->Duration}}</td>
+        <td>{{$k->Price}}</td>
+      </tr>
+      @endforeach
+      
+    </tbody>
+  </table>
+</div>
+
+
+</div>
+<footer><center>Thank you for visiting</footer>
+</body>
+</html>
+
+
+
+/******       controller code *****/
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class PagesController extends Controller
+{
+    //
+    public function index()
+    {
+    	$project=\App\project::all();
+    	return view('index',compact('project'));
+    }
+}
+
+
+
+/*********          db_Table_code      ******/
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateProjects extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('projects', function (Blueprint $table) {
+            $table->increments('id');
+            $table->text('CourseCode');
+            $table->string('CourseName');
+            $table->text('Duration');
+            $table->text('Price');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('projects');
+    }
+}
+/****** route code  *****/
+<?php
+
+
+
+Route::get('/home', 'PagesController@index');
+
