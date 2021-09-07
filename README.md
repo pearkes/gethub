@@ -3,7 +3,7 @@
 ![](https://f.cloud.github.com/assets/846194/628861/8090cb46-d104-11e2-84eb-7878aa9057d0.gif)
 
 ## Overview
-[![Build Status](https://api.travis-ci.org/pearkes/get.png?branch=master)](https://travis-ci.org/pearkes/gethub)
+[![Build Status](https://github.com/pearkes/gethub/actions/workflows/ci.yml/badge.svg)](https://github.com/pearkes/gethub/actions/workflows/ci.yml)
 
 `gethub` helps you keep all of your git repositories that have GitHub
 remotes up to date.
