@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utr-8"/>
+<meta name="viewsport" content="width=device-width, initial-scale=1">
+<title>CSS Web Page</title>
+<style>
+    body {
+        margin:0;
+        padding:0;
+        line-height:1.5em;
+    }
+    #header {
+        background: black;
+        font-family: Arisl;
+        height: 100px;
+    }
+    #contentwrapper{
+        float: left;
+        width: 100%;
+    }
+    #contentcolunm{
+        margin: 0 230px 0 230px;
+    }
+    #leftcolunm{
+        float: left;
+        width: 230px;
+        margin-left: -100%;
+        background: #24CBFF;
+    }
+	#rightcolunm{
+        float: left;
+        width: 230px;
+        margin-left: 230px;
+        background: #FFFB00;
+    }
+	
+    .innertext{
+        margin:20px;
+        font-family: Arial;
+        color: #5E5E5E;
+    }
+    #footer{
+        clear: left; /* cannot float on left; */
+        width:100%;
+        background: black;
+        color:#FFF;
+        font-family: Arial;
+        text-align: center;
+        padding: 4px;
+    }
+    /* ##### Navigation Bar #### */
+    u1 {
+        list-style-type: none;
+        margin:0;
+        padding:0;
+        background-color: #000;
+    }
+    li {
+        float: left;
+        border-right: 1px solid #bbb;      
+    }
+    li:last-child{
+        border-right: none;
+    }
+    li a{
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+    li a:hover:not(.active) {
+        background-color: #808080;
+    }
+    .active{
+        background-color: #0099ff;
+    }
+    /* ###### Responsive layout CSS ###### */
+    @media (max-width: 840px) {/* Drop Right Colunm Down */
+    #leftcolunm{
+        margin-left: -100;
+    }
+    #rightcolunm{
+        float: none;
+        width: 100%;
+        margin-left: 0;
+        clear: both;
+    }
+    #contentcolumn{
+        margin-right: 0; /*set margin to LeftcolunmWidth */
+    }
+	}
+    @media (max-width: 600px){/* Drop Left Column Down */
+        #leftcolumn{
+            float: none;
+            width: 100%;
+            clear: both;
+            margin-left: 0;
+        }
+        #contentcolumn{
+            margin-left: 0;
+        }
+	}
+</style>
+</head>
+<body>
+
+<div id="container">
+    <div id="header">
+        <ul style="display: inline;">
+        <li><a class="active" href="#home">Home</a></li>
+        <li><a href="#news">About<a></li>
+        <li><a href="#contact">News</a></li>
+        <li><a href="#about">contact</a></li>
+    </ul>
+    </div>
+    <div id="contentwrapper">
+        <div id="contentcolumn">
+            <div class="innertext">
+               <b>Welcome!</b> <br /> wefuewrwe werwbrkw sfsufwnf wefuewrwe werwbrkw sfsufwnf
+                 fsfkjsf jsffj jsaskjasadjada addakjda adjafbajfba
+	            wefuewrwe werwbrkw sfsufwnf fsfkjsf jsffj jsaskjasadjad
+                a addakjda adjafbajfba sfsdg wefuewrwe werwbrkw sfsufwn
+                f fsfkjsf jsf wefuewrwe werwbrkw sfsufwnf wefuewrwe werwbrkw
+                 sfsufwnf fsfkjsf jsffj jsaskjasadjada addakjda adjafbajfba
+                wefuewrwe werwbrkw sfsufwnf fsfkjsf jsffj jsaskjasadjada addakjd
+                a adjafbajfba sfsdg wefuewrwe werwbrkw sfsufwnf fsfkjsf jsf
+                wefuewrwe werwbrkw sfsufwnf fsfkjsf jsffj jsaskjasadjada add
+                akjda adjafbajfba sdsdbhdsfbdsfdhfbhdbfjdh gdsgsdgsdgsdg
+	            wefuewrwe werwbrkw sfsufwnf fsfkjsf jsffj jsaskjasadjada
+                 addakjda adjafbajfba sdsdbhdsfbdsfdhfbhdbfjdh bdfggggg.
+
+                 wefuewrwe werwbrkw sfsufwnf wefuewrwe werwbrkw sfsufwnf fsfkjsf j
+                 sffj jsaskjasadjada addakjda adjafbajfba chdghdhdfhdhdhdhdfhdfb fd
+	            wefuewrwe werwbrkw sfsufwnf fsfkjsf jsffj jsaskjasadjada addakjd
+                a adjafbajfba sfsdg wefuewrwe werwbrkw sfsufwnf fsfkjsf jsf
+	            wefuewrwe werwbrkw sfsufwnf fsfkjsf jsffj jsaskjasadjada addakjda
+                 adjafbajfba sdsdbhdsfbdsfdhfbhdbfjdhdrg gdgdrgdgdfgdf dgdgdg
+            </div>
+        </div>
+    </div>
+
+    <div id="leftcolumn">
+    <div class="innertext">
+        <b>left column: <em>230px</em></b><br />wefuewrwe werwbrkw sfsufwnf wefuewrwe werwbrkw
+         sfsufwnf fsfkjsf jsffj jsaskjasadjada addakjda adjafbajfba
+        wefuewrwe werwbrkw sfsufwnf fsfkjsf jsffj jsaskjasadjada addakjda adjafbajfba 
+         erktretk trtrktrtksfsdg wefuewrwe werwbrkw sfsufwnf fsfkjsf jsf
+        wefuewrwe werwbrkw sfsufwnf fsfkjsf jsffj jsaskjasadjada addakjda adjafbajfba sdsdbhdsfbdsfdhfbhdbfjdh
+        wefuewrwe werwbrkw sfsufwnf wefuewrwe werwbrkw sfsufwnf fsfkjsf jsf\ dhfgdg
+        fj jsaskjasadjada addakjda adjafbajfba dfsdfsdfsdfsdfsdfsd faasf
+	    wefuewrwe werwbrkw sfsufwnf fsfkjsf jsffj jsaskjasadjada addakjda adjafbajf
+        ba sfsdg wefuewrwe werwbrkw sfsufwnf fsfkjsf jsf xbxsdvgdfg gdf 
+	    wefuewrwe werwbrkw sfsufwnf fsfkjsf jsffj jsaskjasadjada addakjda adjafbajfba sdsdbhdsfbdsfdhfbhdbfjdh
+    </div>
+    </div>
+
+    <div id="rightcolunm">
+        <div class="innertext">
+        <b>right colunm: <em>230px</em></b><br />wefuewrwe werwbrkw sfsufwnf wefuewrwe werwbrkw sfsuf
+        wnf fsfkjsf jsffj jsaskjasadjada addakjda adjafbajfba
+        wefuewrwe werwbrkw sfsufwnf fsfkjsf jsffj jsaskjasadjada 
+        addakjda adjafbajfba sfsdg w wefuewrwe werwbrkw sfsufwnf wefuewrwe werwbrkw 
+        sfsufwnf fsfkjsf jsffj jsaskjasadjada addakjda adjafbajfba
+        wefuewrwe werwbrkw sfsufwnf fsfkjsf jsffj jsaskjasadjada addakjda 
+        adjafbajfba sfsdg wefuewrwe werwbrkw sfsufwnf fsfkjsf jsf
+        wefuewrwe werwbrkw sfsufwnf fsfkjsf jsffj jsaskjasadjada addakjda a
+        djafbajfba sdsdbhdsfbdsfdhfbhdbfjdh fhrt yr
+        efuewrwe werwbrkw sfsufwnf fsfkjsf jsfr ry
+        wefuewrwe werwbrkw sfsufwnf fsfkjsf jsffj jsaskjasadjada addakjd
+        a adjafbajfba sdsdbhdsfbdsfdhfbhdbfjdh 
+        </div>
+    </div>
+    <div id="footer">Footer</div>
+
+</body>
