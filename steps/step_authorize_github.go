@@ -77,8 +77,11 @@ authorization token from GitHub's API, which will be stored in
 		state.Put("token", token)
 		state.Put("username", username)
 		state.Put("path", path)
+		client := &http.Client{}
 
-		resp, err := http.Get(host + "/user?access_token=" + token)
+		req, err := http.NewRequest("GET", host+"/user", nil)
+		req.Header.Add("Authorization", "Bearer "+token)
+		resp, err := client.Do(req)
 
 		if err != nil {
 			fmt.Println(err)
